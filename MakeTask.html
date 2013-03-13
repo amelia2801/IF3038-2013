@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title> Banana Board - New Task </title>
+		<link rel="stylesheet" style="text/css" href="style.css">        
+</head>
+    
+<body onload="generateDate()">
+	<div id="content">
+		<div id="header">
+			<div id="logo">
+				<a href="home.html" class="header">
+				<img src="logo.png"/></a>
+			</div>
+			<div id="menu">
+				<ul>
+					<li> <a href="home.html"> DASHBOARD </a> </li>
+					<li> <a href="profile.html"> PROFILE </a> </li>
+					<li> <a href="index.html"> LOGOUT </a> </li>
+				</ul>
+				<form action="index.html">
+					<input class="box" type="text" onclick="this.value='';" onfocus="this.select()" onblur="this.value=!this.value?'Enter search query':this.value;" value="Enter search query">	
+					<input class="button" type="submit" value="">
+				</form>
+			</div>
+		</div>
+
+		<div id="isi">
+			<div id="leftsidebar">
+					<b>CREATE NEW TASK</b>
+					<img src="leftmenu.png"/>
+			</div>
+		
+			<div id="rightsidebar">
+				<div id="wrapper-left">
+					<form class="task" name="MakeForm" action="home.html" onsubmit="submitThis()">
+						<ul>
+							<h1>Fill Details</h1>
+							<li>
+								<label for="tugas" >Nama Tugas</label>
+								<input id="tugas" name="tugas" type="text" maxlength="25"/><br>
+							</li>
+							<li>
+								<label for="filebutton">Attachment</label>
+								<input id="filebutton" name="filebutton" type="file" onChange="loadAttachment()"/><br>
+							</li>		
+							
+							<li>
+								<label for="asignee">Assignee</label>
+								<input id="asignee" name="asignee" type="text"/>
+							</li>
+							<li>
+								<label for="tag">Tag</label>
+								<input id="tag" name="tag" type="text" size="20"/><br>
+								<span>*dipisahkan dengan ","</span>
+							</li>							
+							<li>
+								<label for="deadline">Deadline</label>
+								<div id="defaultdate">
+									<input id="deadline" type="date" required/>
+								</div>
+								<div id="customdate">
+									<select id="tanggallist">
+									</select>
+									<select id="bulanlist">
+									</select>
+									<select id="tahunlist">
+									</select>
+								</div>
+							</li>
+							<li>
+								<button class="task" name="submitbutton" type="submit" onClick="checkSubmission()"><b>Submit</b></button>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<div id="wrapper-right">
+					<img id="suatu_gambar" src="Troll.png" alt="Gambar tidak dapat di-load"/>    
+					<video id="suatu_video" width="320" height="240" controls>
+						<source src="A_Caterpillar.mp4" type="video/mp4">
+						<source src="A_Caterpillar.ogg" type="video/ogg">
+						Your browser does not support the video tag.
+					</video>
+				</div>
+			</div>
+		</div>
+		<div id="footer" class="home">
+				<p>&copy Copyright 2013. All rights reserved<br>
+				Chalkz Team<br>
+				Yulianti - Adriel - Amelia</p>			
+		</div>
+    </div>
+	
+		<script type="text/javascript">
+		function loadAttachment()
+		{
+			var x = document.getElementById("filebutton").value;
+			var y = x.split(".");
+			var z = y[y.length-1];
+			if (z == "jpg" || z == "jpeg" || z == "png" || z == "gif")
+			{
+				document.getElementById("suatu_video").style.display = "none";
+				document.getElementById("suatu_gambar").style.display = "block";
+				
+			}
+			else if (z == "avi" || z == "mp4" || z == "mkv" || z == "3gp" || z == "flv" || z == "ogg")
+			{
+				document.getElementById("suatu_gambar").style.display = "none";
+				document.getElementById("suatu_video").style.display = "block";
+			}
+			else
+			{
+				document.getElementById("suatu_gambar").style.display = "none";
+				document.getElementById("suatu_video").style.display = "none";
+			}
+		}
+		function checkSubmission()
+		{
+			var isValid = true;
+			
+			var a = document.getElementById("tugas").value;
+			if (a.length != 0)
+			{
+				var index = 0;
+				while (index < a.length && isValid == true)
+				{
+					if ((a[index] >= '0' && a[index] <= '9') || (a[index] >= 'a' && a[index] <= 'z') || (a[index] >='A' && a[index] <='Z'))
+					{}
+					else
+					{
+						isValid = false;
+					}
+					index++;
+				}
+				
+				if (isValid == false)
+				{
+					alert("Nama tugas tidak boleh menggunakan karakter khusus!")
+				}
+			}
+			else
+			{
+				isValid = false;
+				alert("Nama tugas tidak boleh kosong!");
+			}
+			
+			if (isValid == true)
+			{
+				alert("Tugas berhasil ditambahkan!");
+			}
+		}
+		
+		function generateDate()
+		{
+			var browser = document.createElement("input");
+			browser.setAttribute("type", "date");
+			if(browser.type == "date")
+			{
+				var a = document.getElementById("defaultdate");
+				a.style.display = "block";
+			}
+			else
+			{
+				var a = document.getElementById("customdate");
+				a.style.display = "block";
+				var b = document.getElementById("tanggallist");
+				for (var i = 1; i <= 31; i++)
+				{
+					var option = document.createElement("option");
+					option.text = "" + i;
+					option.value = "date" + i;
+					b.appendChild(option);
+				}
+				
+				var c = document.getElementById("bulanlist");
+				for (var i = 1; i <= 12; i++)
+				{
+					var option = document.createElement("option");
+					option.text = "" + i;
+					option.value = "month" + i;
+					c.appendChild(option);
+				}
+				
+				var d = document.getElementById("tahunlist");
+				for (var i = 1955; i <= 2013; i++)
+				{
+					var option = document.createElement("option");
+					option.text = "" + i;
+					option.value = "month" + i;
+					d.appendChild(option);
+				}
+			}
+		}
+	</script>
+
+</body>
+
+</html>

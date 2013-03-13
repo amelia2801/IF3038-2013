@@ -1,0 +1,4 @@
+orange #fe9227
+yellow #fcff00
+light yellow #feff95
+coklat #351b02
