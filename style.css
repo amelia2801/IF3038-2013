@@ -1,3 +1,9 @@
+/*
+orange #fe9227
+yellow #fcff00
+light yellow #feff95
+coklat #351b02
+*/
 body {
 background-repeat:no-repeat;
 background-position:top center;
@@ -317,11 +323,11 @@ background-color:#351b02;
 #menu form {
 margin:0; /*top right bottom left*/
 overflow:hidden;
-padding:15px 0 0 215px; /*top rightleft bottom*/
+padding:15px 0 0 115px; /*top rightleft bottom*/
 background-color:#351b02;
 height: 45px;
 float: right;
-width: 354px;
+width: 454px;
 }
 
 #menu form input.box {
@@ -350,6 +356,10 @@ width: 80px;
 height: 30px;
 border: 0;
 margin-right: 12px;
+}
+
+#menu form select{
+height: 30px;
 }
 
 #menu ul li a {
@@ -511,6 +521,7 @@ width: 900px;
 float: left;
 background-color: #351b02;
 margin-top: 18px;
+padding-top:20px;
 padding-bottom: 30px;
 }
 
@@ -521,7 +532,7 @@ width: 880px;
 margin: 0 0 18px 10px;
 padding: 0;
 }
-#kegiatan li {
+#kegiatan li{
 float: left;
 width: 400px;
 margin: 30px 20px 12px;
@@ -611,6 +622,135 @@ border-bottom-style: solid;
 	z-index: 0;
 }
 
+#search {
+list-style: none;
+width: 880px;
+margin:0px;
+margin-left: 20px;
+padding: 0px;
+height:100%;
+}
+#search ul{
+width:180px;
+margin:0px;
+text-align: left;
+margin-left:20px;
+padding:5px 0 5px 0;
+display: inline-block;
+background-color: #fe9227;
+}
+#judultabel {
+list-style: none;
+width: 880px;
+margin:0px;
+margin-left: 51px;
+padding: 0px;
+height:100%;
+}
+#judultabel ul{
+width:180px;
+height: 30px;
+text-align: middle;
+margin:0px;
+margin-left:20px;
+padding:0px;
+padding-top: 12px;
+display: inline-block;
+background-color: yellow;
+}
+#search li{
+width: 180px;
+text-align:center;
+padding:0px;
+margin: 0px;
+text-align: left;
+list-style:none;
+}
+#judultabel li{
+padding:0px;
+margin: 0px;
+list-style:none;
+text-align:center;
+width: 180px;
+color: black;
+}
+#search b {
+color: black;
+padding: 12px;
+font-family: 'Segoe UI';
+font-size: 18px;
+margin: 0;
+width: 200px;
+}
+#search ul li a{
+color: black;
+font-family: 'Segoe UI';
+text-decoration: none;
+padding: 12px;
+}
+#search input{
+width: 20px;
+}
+#byusername{
+height: 100px;
+margin: 20px;
+padding: 0px;
+}
+#thumb {
+display: inline-block;
+margin: 0px;
+padding: 0px;
+height: 100px;
+
+}
+#thumb img{
+width: 80px;
+height: 80px;
+display: inline-block;
+margin: 0px;
+margin-left: 50px;
+padding: 0px;
+border-style: solid;
+border-color: #fe9227;
+}
+#userdetail{
+list-style: none;
+width: 600px;
+margin:0px;
+text-align:left;
+padding: 0px;
+height:100%;
+display: inline-block;
+vertical-align: top;
+}
+#userdetail ul{
+width:250px;
+margin:0px;
+margin-left:20px;
+padding:5px 0 5px 0;
+display: block;
+background-color: #fe9227;
+vertical-align: center;
+}
+#userdetail li{
+width: 200px;
+text-align:left;
+padding:0px;
+padding-left: 12px;
+margin: 0px;
+text-align: left;
+list-style:none;
+}
+#userdetail ul li a{
+text-decoration: none;
+color: black;
+font-family: 'Segoe UI';
+font-size: 18px;
+font-weight: bold;
+}
+#userdetail ul li a:hover{
+color: #fcff00;
+}
 /* taskdetails.html */
 #edit, #commentbutton
 {

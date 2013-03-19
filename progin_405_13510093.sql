@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2013 at 06:05 PM
+-- Generation Time: Mar 19, 2013 at 11:19 AM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS `kategori` (
 
 INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
 ('C01', 'Tubes Progin'),
-('C02', 'Imagine Cup');
+('C02', 'Imagine Cup'),
+('C03', 'Tubes Sister');
 
 -- --------------------------------------------------------
 
@@ -163,6 +164,7 @@ CREATE TABLE IF NOT EXISTS `tugas` (
   `nama_tugas` varchar(25) NOT NULL,
   `deadline` date NOT NULL,
   `id_kategori` varchar(5) NOT NULL,
+  `status_tugas` varchar(12) NOT NULL,
   PRIMARY KEY (`id_tugas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -170,11 +172,12 @@ CREATE TABLE IF NOT EXISTS `tugas` (
 -- Dumping data for table `tugas`
 --
 
-INSERT INTO `tugas` (`id_tugas`, `nama_tugas`, `deadline`, `id_kategori`) VALUES
-('T001', 'membuat database', '2013-03-09', 'C01'),
-('T002', 'membuat halaman utama', '2013-03-11', 'C01'),
-('T003', 'merancang GUI', '2013-03-05', 'C02'),
-('T004', 'membuat flow', '2013-03-01', 'C02');
+INSERT INTO `tugas` (`id_tugas`, `nama_tugas`, `deadline`, `id_kategori`, `status_tugas`) VALUES
+('T001', 'membuat database', '2013-03-09', 'C01', 'done'),
+('T002', 'halaman utama', '2013-03-11', 'C01', 'in progress'),
+('T003', 'merancang GUI', '2013-03-05', 'C02', 'in progress'),
+('T004', 'membuat flow', '2013-03-01', 'C02', 'in progress'),
+('T005', 'membuat rancangan', '2013-03-13', 'C03', 'in progress');
 
 -- --------------------------------------------------------
 
@@ -183,21 +186,21 @@ INSERT INTO `tugas` (`id_tugas`, `nama_tugas`, `deadline`, `id_kategori`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id_user` varchar(5) NOT NULL,
+  `id_user` int(5) NOT NULL AUTO_INCREMENT,
   `nama_lengkap` varchar(25) NOT NULL,
   `email` varchar(25) NOT NULL,
   `username` varchar(15) NOT NULL,
   `password` varchar(12) NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `avatar` varchar(50) NOT NULL,
+  `avatar` varchar(200) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, `tanggal_lahir`, `avatar`) VALUES
-('001', 'Anasthasia Amelia', 'amelia@gmail.com', 'amelia2801', 'bluedemon', '1992-01-28', ''),
-('002', 'Patrick Lumban Tobing', 'patrick@hotmail.com', 'patricktobing', 'spongebob', '1992-03-17', ''),
-('003', 'Benedikus Holyson', 'benny.h@gmail.com', 'benny92', 'benbenben', '1992-05-28', '');
+(1, 'Anasthasia Amelia', 'amelia@gmail.com', 'amelia2801', 'bluedemon', '1992-01-28', 'avatar/foto.jpg'),
+(2, 'Patrick Lumban Tobing', 'patrick@hotmail.com', 'patricktobing', 'spongebob', '1992-03-17', ''),
+(3, 'Benedikus Holyson', 'benny.h@gmail.com', 'benny92', 'benbenben', '1992-05-28', '');
