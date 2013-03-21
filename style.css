@@ -291,12 +291,27 @@ margin:auto;
 height:99px;
 margin-bottom: 50px;
 }
-
+#usernamelogo{
+text-align: right;
+margin: 0px;
+margin-top: 20px;
+}
+#usernamelogo img{
+width: 30px;
+height: 30px;
+}
+#usernamelogo a{
+font-family:'segoe ui';
+font-size: 24px;
+font-weight: bold;
+vertical-align: bottom;
+text-decoration: none;
+}
 #logo img {
 width: 200px;
 height: 120px;
 float: left;
-margin-top: 15px;
+margin-top: -10px;
 }
 
 #menu {
@@ -307,7 +322,7 @@ width: 1000px;
 
 #menu ul {
 margin-left:-35px;
-margin-top:40px;
+margin-top:20px;
 list-style:none;
 font-size:20px;
 }
@@ -637,7 +652,7 @@ text-align: left;
 margin-left:20px;
 padding:5px 0 5px 0;
 display: inline-block;
-background-color: #fe9227;
+background-color: #feff95;
 }
 #judultabel {
 list-style: none;
@@ -656,15 +671,7 @@ margin-left:20px;
 padding:0px;
 padding-top: 12px;
 display: inline-block;
-background-color: yellow;
-}
-#search li{
-width: 180px;
-text-align:center;
-padding:0px;
-margin: 0px;
-text-align: left;
-list-style:none;
+background-color: #fe9227;
 }
 #judultabel li{
 padding:0px;
@@ -673,6 +680,14 @@ list-style:none;
 text-align:center;
 width: 180px;
 color: black;
+}
+#search li{
+width: 180px;
+text-align:center;
+padding:0px;
+margin: 0px;
+text-align: left;
+list-style:none;
 }
 #search b {
 color: black;
@@ -729,7 +744,7 @@ margin:0px;
 margin-left:20px;
 padding:5px 0 5px 0;
 display: block;
-background-color: #fe9227;
+background-color: #feff95;
 vertical-align: center;
 }
 #userdetail li{
@@ -749,7 +764,31 @@ font-size: 18px;
 font-weight: bold;
 }
 #userdetail ul li a:hover{
-color: #fcff00;
+color: #fe9227;
+}
+
+.byall p{
+display: block;
+background-color: #fe9227;
+font-weight: bold;
+font-family: 'Segoe UI';
+font-size: 18px;
+margin: 0 30px 0 30px;
+padding: 5px 0 5px 12px;
+}
+.byall ul{
+margin: 0px 30px 40px 30px;
+background-color: #feff95;
+padding: 5px 0 5px 12px;
+}
+.byall ul li{
+list-style: none;
+padding: 0px;
+}
+.byall ul li a{
+text-decoration: none;
+list-style: none;
+color: black;
 }
 /* taskdetails.html */
 #edit, #commentbutton
