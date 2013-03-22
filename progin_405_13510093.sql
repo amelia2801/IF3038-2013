@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 19, 2013 at 11:19 AM
+-- Generation Time: Mar 22, 2013 at 06:22 AM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -108,22 +108,22 @@ INSERT INTO `komentar` (`id_komentar`, `id_user`, `id_tugas`, `isi_komentar`, `t
 --
 
 CREATE TABLE IF NOT EXISTS `mengerjakan` (
-  `id_user` varchar(5) NOT NULL,
+  `id_user` int(5) NOT NULL AUTO_INCREMENT,
   `id_tugas` varchar(5) NOT NULL,
   PRIMARY KEY (`id_user`,`id_tugas`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `mengerjakan`
 --
 
 INSERT INTO `mengerjakan` (`id_user`, `id_tugas`) VALUES
-('001', 'T001'),
-('001', 'T003'),
-('002', 'T001'),
-('002', 'T004'),
-('003', 'T002'),
-('003', 'T003');
+(1, 'T001'),
+(1, 'T003'),
+(2, 'T001'),
+(2, 'T004'),
+(3, 'T002'),
+(3, 'T003');
 
 -- --------------------------------------------------------
 
@@ -151,7 +151,8 @@ INSERT INTO `tag` (`id_tugas`, `label`) VALUES
 ('T003', 'kompetisi'),
 ('T003', 'lomba'),
 ('T004', 'kompetisi'),
-('T004', 'lomba');
+('T004', 'lomba'),
+('T005', 'p2p');
 
 -- --------------------------------------------------------
 

@@ -20,10 +20,10 @@
 			//Starts the AJAX request.
 			function changevalues(id) {
 				ids = id;
-				if (xmlHttpReq.readyState == 4 || xmlHttpReq.readyState == 0) {
-					
+				if (xmlHttpReq.readyState == 4 || xmlHttpReq.readyState == 0){
 					var str = document.getElementById('statustugas'+id).value;
-					xmlHttpReq.open("GET", 'ChangeTaskStatus.php?id='+id, true);
+					var isCheck = document.getElementById('checklist'+id).checked;
+					xmlHttpReq.open("GET", 'ChangeTaskStatus.php?id='+id+'&ischeck='+isCheck, true);
 					xmlHttpReq.onreadystatechange = handleStatusChange; 
 					xmlHttpReq.send(null);
 				}		
@@ -33,8 +33,12 @@
 			function handleStatusChange() {
 				if (xmlHttpReq.readyState == 4) {
 					var str =xmlHttpReq.responseText;
-					alert(document.getElementById('"statustugas'+ids+'"').innerHTML);
-					document.getElementById('"statustugas'+ids+'"').innerHTML = "done";
+					id = "statustugas"+ids;
+					if(document.getElementById(id).innerHTML == "in progress"){
+						document.getElementById(id).innerHTML = "done";
+					}else{
+						document.getElementById(id).innerHTML = "in progress";
+					}
 				}
 			}
 		</script>
@@ -265,7 +269,7 @@
 								</ul>
 								<ul class="judul">
 									<li class="judul">
-										<b >Label</b>
+										<b >Tag</b>
 									</li>
 								</ul>
 								<ul class="judul">
@@ -295,7 +299,18 @@
 								</ul>
 								<ul>
 									<li>
-										<a href="searchresult.php?kateg=<?php echo $kategori_item['label'] ?>"></a>
+										<?php
+										$tag = mysql_query('SELECT label FROM `tag` WHERE id_tugas = "'. $id . '";');										
+										?>
+											<a href="searchresult.php?kateg=<?php echo $kategori_item['label'] ?>">
+											<?php
+												while($tag_item = mysql_fetch_array($tag))
+												{
+													echo $tag_item['label'];
+													echo (",");
+												}
+											?>
+											</a>
 									</li>
 								</ul>
 								<ul>
