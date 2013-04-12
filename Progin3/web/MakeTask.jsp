@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<%@page import="progin3.suggestion"%>
 <html>
 
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title> Banana Board - New Task </title>
-		<link rel="stylesheet" style="text\css" href="style.css">        
+		<link rel="stylesheet" style="text/css" href="style.css">        
 </head>
     
 <body onload="generateDate();initAttachment();">
 	<div id="content">
-<!--		<?
+		<?
 			include("header.php");
-		?>-->
+		?>
 
 		<div id="isi">
 			<div id="leftsidebar">
@@ -72,9 +71,9 @@
 				</div>
 			</div>
 		</div>
-<!--		<?
+		<?
 			include("footer.php");
-		?>-->
+		?>
     </div>
 	
 		<script type="text/javascript">
@@ -96,7 +95,6 @@
 		}
 		
 		function checkSuggestion(str) {
-                        //alert("ceksugesti");
 			var obj = document.getElementById("suggestion");
 			if(str.length === 0) {
 				obj.innerHTML = "";
@@ -115,12 +113,7 @@
 						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 					}
 					xmlhttp.onreadystatechange = function() {
-                                                //alert(xmlhttp);
-                                                //alert(xmlhttp.readyState);
-                                                //alert(str);
 						if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                                                        //alert(str);
-                                                        //alert(xmlhttp.responseText);
 							if(xmlhttp.responseText !== "empty" && xmlhttp.responseText !== "complete") {
 								obj.innerHTML = xmlhttp.responseText;
 								obj.style.visibility = "visible";
@@ -137,7 +130,7 @@
 							}
 						}
 					};
-					xmlhttp.open("GET","suggestion?str="+str,true);
+					xmlhttp.open("GET","suggestion.php?str="+str,true);
 					xmlhttp.send();
 				}
 			}
@@ -169,7 +162,7 @@
 			var ext = parse[parse.length-1];
 			if(ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif"
 			|| ext === "avi" || ext === "mp4" || ext === "mkv" || ext === "3gp" || ext === "flv" || ext === "ogg" || ext === "wmv"
-			|| ext === "doc" || ext === "docx" || ext === "pdf" || ext === "txt") {	// ekstensi file sesuai
+			|| ext === "doc" || ext === "docx" || ext === "pdf") {	// ekstensi file sesuai
 				if(obj1.nextSibling === null) {	// tidak memiliki field browse attachment kosong di bawahnya, tambahkan 1 field browse
 					var temp1 = document.createElement("DIV");
 					temp1.setAttribute("id","group"+document.getElementsByTagName("div").length);
@@ -210,12 +203,10 @@
 			var year = document.getElementById("tahunlist").value;
 			var tanggal = year + "-" + month + "-" + day;
 			var id_cat = "<?echo $_GET['idcat'];?>";
-			var id_user= "<?echo $_GET['iduser'];?>";
-                                
+			
 			//alert("year" + year);
-			var params = "namatugas=" + taskname + "&date=" + tanggal + "&idcat=" + id_cat + "&iduser=" + id_user + "&assignee=" + assignees + "&tag=" + tags + "&attach=" + attachment;
+			var params = "namatugas=" + taskname + "&date=" + tanggal + "&idcat=" + id_cat + "&assignee=" + assignees + "&tag=" + tags + "&attach=" + attachment;
 			//alert(params);
-                        //alert(assignees);
 			var xmlhttp;
 			if(window.XMLHttpRequest) {
 				xmlhttp = new XMLHttpRequest();
@@ -225,11 +216,11 @@
 			
 			xmlhttp.onreadystatechange = function() {
 				if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-					alert("masuk" + xmlhttp.responseText);					
+					//alert("masuk" + xmlhttp.responseText);					
 				}
 			};
 			
-			xmlhttp.open("POST","addTask",false);
+			xmlhttp.open("POST","addTask.php",false);
 			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xmlhttp.send(params);
 		}
