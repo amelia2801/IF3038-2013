@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 23, 2013 at 04:31 PM
+-- Generation Time: Apr 12, 2013 at 02:38 AM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -63,9 +63,13 @@ CREATE TABLE IF NOT EXISTS `attachment` (
 --
 
 INSERT INTO `attachment` (`id_tugas`, `nama_file`) VALUES
-(2, 'foto.jpg'),
+(2, 'penguins.jpg'),
 (2, 'TubesII.pdf'),
-(2, 'Wildlife.wmv');
+(2, 'Wildlife.wmv'),
+(15, 'C:fakepathlogo.png'),
+(16, 'leftmenu.png'),
+(16, 'logo.png'),
+(16, 'searchbutton.jpg');
 
 -- --------------------------------------------------------
 
@@ -104,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `komentar` (
   PRIMARY KEY (`id_komentar`,`id_user`,`id_tugas`),
   KEY `id_user` (`id_user`),
   KEY `id_tugas` (`id_tugas`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `komentar`
@@ -122,7 +126,10 @@ INSERT INTO `komentar` (`id_komentar`, `id_user`, `id_tugas`, `isi_komentar`, `t
 (12, 3, 2, 'we', '2013-03-23 14:55:56'),
 (13, 3, 2, 'rwer', '2013-03-23 14:56:00'),
 (14, 3, 2, 'asdfasdfasdf', '2013-03-23 14:56:05'),
-(15, 3, 2, 'asdfasdfasdf', '2013-03-23 14:56:09');
+(15, 3, 2, 'asdfasdfasdf', '2013-03-23 14:56:09'),
+(16, 2, 2, 'qwerty', '2013-04-12 06:57:40'),
+(17, 2, 2, 'bleketek', '2013-04-12 06:57:56'),
+(18, 2, 2, 'zzz', '2013-04-12 07:00:10');
 
 -- --------------------------------------------------------
 
@@ -144,9 +151,15 @@ CREATE TABLE IF NOT EXISTS `mengerjakan` (
 INSERT INTO `mengerjakan` (`id_user`, `id_tugas`) VALUES
 (1, 1),
 (2, 1),
+(1, 2),
 (2, 2),
+(3, 2),
 (1, 3),
-(3, 3);
+(3, 3),
+(1, 15),
+(1, 16),
+(2, 16),
+(3, 16);
 
 -- --------------------------------------------------------
 
@@ -158,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `id_tugas` int(5) NOT NULL AUTO_INCREMENT,
   `label` varchar(25) NOT NULL,
   PRIMARY KEY (`id_tugas`,`label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `tag`
@@ -167,15 +180,18 @@ CREATE TABLE IF NOT EXISTS `tag` (
 INSERT INTO `tag` (`id_tugas`, `label`) VALUES
 (1, 'ajax'),
 (1, 'php'),
-(2, 'pret'),
-(2, 'xih'),
-(2, 'yok'),
+(2, 'breketek'),
+(2, 'prikitiw'),
+(2, 'qerty'),
 (3, 'kompetisi'),
 (3, 'lomba'),
 (4, 'kompetisi'),
 (4, 'lomba'),
-(5, 'p2p'),
-(5, 'terdistribusi');
+(15, 'tes'),
+(16, 'aifpawig'),
+(16, 'awgawgaw'),
+(16, 'gawg'),
+(16, 'wgg');
 
 -- --------------------------------------------------------
 
@@ -185,24 +201,26 @@ INSERT INTO `tag` (`id_tugas`, `label`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tugas` (
   `id_tugas` int(5) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
   `nama_tugas` varchar(25) NOT NULL,
   `deadline` date NOT NULL,
   `id_kategori` int(5) NOT NULL,
   `status_tugas` varchar(12) NOT NULL,
   PRIMARY KEY (`id_tugas`),
   KEY `id_kategori` (`id_kategori`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `tugas`
 --
 
-INSERT INTO `tugas` (`id_tugas`, `nama_tugas`, `deadline`, `id_kategori`, `status_tugas`) VALUES
-(1, 'membuat database', '2013-03-09', 1, 'done'),
-(2, 'progin', '1955-01-01', 1, 'in progress'),
-(3, 'merancang GUI', '2013-03-05', 2, 'done'),
-(4, 'membuat flow', '2013-03-01', 2, 'in progress'),
-(5, 'membuat rancangan', '2013-03-13', 3, 'in progress');
+INSERT INTO `tugas` (`id_tugas`, `id_user`, `nama_tugas`, `deadline`, `id_kategori`, `status_tugas`) VALUES
+(1, 1, 'membuat database', '2013-03-09', 1, 'done'),
+(2, 2, 'nih', '2013-04-12', 1, 'done'),
+(3, 3, 'merancang GUI', '2013-03-05', 2, 'done'),
+(4, 1, 'membuat flow', '2013-03-01', 2, 'in progress'),
+(15, 1, 'aneh', '1955-01-01', 1, 'in progress'),
+(16, 1, 'opuppojper', '1955-01-01', 1, 'in progress');
 
 -- --------------------------------------------------------
 
@@ -219,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `tanggal_lahir` date NOT NULL,
   `avatar` varchar(200) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
@@ -227,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, `tanggal_lahir`, `avatar`) VALUES
 (1, 'Anasthasia Amelia', 'amelia@gmail.com', 'amelia2801', 'bluedemon', '1955-01-01', 'upload/foto.jpg'),
-(2, 'Patrick Lumban Tobing', 'patrick@hotmail.com', 'patricktobing', 'spongebob', '1992-03-17', 'upload/foto.jpg'),
+(2, 'Patrick Lumban Tobing', 'patrick@hotmail.com', 'patricktobing', 'spongebob', '1992-03-17', 'upload/fotopat.jpg'),
 (3, 'Benedikus Holyson', 'benny.h@gmail.com', 'benny92', 'benbenben', '0000-00-00', 'upload/nature-scotty-bobby-uploads-content-dizorb-428992.jpg');
 
 --
@@ -238,8 +256,8 @@ INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, 
 -- Constraints for table `anggota`
 --
 ALTER TABLE `anggota`
-  ADD CONSTRAINT `anggota_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
-  ADD CONSTRAINT `anggota_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `anggota_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `anggota_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `attachment`
@@ -251,15 +269,15 @@ ALTER TABLE `attachment`
 -- Constraints for table `komentar`
 --
 ALTER TABLE `komentar`
-  ADD CONSTRAINT `komentar_ibfk_2` FOREIGN KEY (`id_tugas`) REFERENCES `tugas` (`id_tugas`),
-  ADD CONSTRAINT `komentar_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `komentar_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `komentar_ibfk_4` FOREIGN KEY (`id_tugas`) REFERENCES `tugas` (`id_tugas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `mengerjakan`
 --
 ALTER TABLE `mengerjakan`
-  ADD CONSTRAINT `mengerjakan_ibfk_2` FOREIGN KEY (`id_tugas`) REFERENCES `tugas` (`id_tugas`),
-  ADD CONSTRAINT `mengerjakan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `mengerjakan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `mengerjakan_ibfk_2` FOREIGN KEY (`id_tugas`) REFERENCES `tugas` (`id_tugas`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tag`
