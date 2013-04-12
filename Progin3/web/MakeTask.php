@@ -7,7 +7,7 @@
 		<link rel="stylesheet" style="text/css" href="style.css">        
 </head>
     
-<body onload="generateDate();initAttachment()">
+<body onload="generateDate();initAttachment();">
 	<div id="content">
 		<?
 			include("header.php");
@@ -30,7 +30,7 @@
 							<h1>Fill Details</h1>
 							<li>
 								<label for="tugas" >Nama Tugas</label>
-								<input id="tugas" name="tugas" type="text" maxlength="25" onkeyup="checkTaskName(this.value)"/><br>
+								<input id="tugas" name="tugas" type="text" maxlength="25" onkeyup="checkTaskName(this.value);"/><br>
 								<div id="errorTaskName"></div>
 							</li>
 							<li>
@@ -40,7 +40,7 @@
 							</li>		
 							<li>
 								<label for="asignee">Assignee</label>
-								<input id="asignee" name="asignee" type="text" onkeyup="checkSuggestion(this.value)"/>
+								<input id="asignee" name="asignee" type="text" onkeyup="checkSuggestion(this.value);"/>
 								<div id="suggestion"></div>
 								<span>*dipisahkan dengan ","</span>
 							</li>
@@ -64,7 +64,7 @@
 								</div>
 							</li>
 							<li>
-								<button class="task" name="submitbutton" type="submit" onClick="checkSubmission()"><b>Submit</b></button>
+								<button class="task" name="submitbutton" type="submit" onClick="checkSubmission();"><b>Submit</b></button>
 							</li>
 						</ul>
 					</form>
@@ -82,8 +82,8 @@
 		function checkTaskName(str) {
 			var flag=0;
 			var i=0;
-			while(flag==0 && i<str.length) {
-				if((str.charAt(i) >= 'a' && str.charAt(i) <= 'z') || (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') || (str.charAt(i) >= '0' && str.charAt(i) <= '9') || (str.charAt(i) == ' ')) {
+			while(flag===0 && i<str.length) {
+				if((str.charAt(i) >= 'a' && str.charAt(i) <= 'z') || (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') || (str.charAt(i) >= '0' && str.charAt(i) <= '9') || (str.charAt(i) === ' ')) {
 					flag = 0;
 				} else {
 					flag = 1;
@@ -96,13 +96,13 @@
 		
 		function checkSuggestion(str) {
 			var obj = document.getElementById("suggestion");
-			if(str.length == 0) {
+			if(str.length === 0) {
 				obj.innerHTML = "";
 				obj.style.visibility = "hidden";
 				obj.style.border = "0px";
 			} else {
 				var idx = str.lastIndexOf(",");
-				if(idx != -1) {
+				if(idx !== -1) {
 					str = str.substr(str.lastIndexOf(",")+1);
 				}
 				if(str.length > 0) {
@@ -113,8 +113,8 @@
 						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 					}
 					xmlhttp.onreadystatechange = function() {
-						if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-							if(xmlhttp.responseText != "empty" && xmlhttp.responseText != "complete") {
+						if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+							if(xmlhttp.responseText !== "empty" && xmlhttp.responseText !== "complete") {
 								obj.innerHTML = xmlhttp.responseText;
 								obj.style.visibility = "visible";
 								obj.style.border = "3px ridge #A5ACB2";
@@ -129,7 +129,7 @@
 								obj.style.border = "0px";
 							}
 						}
-					}
+					};
 					xmlhttp.open("GET","suggestion.php?str="+str,true);
 					xmlhttp.send();
 				}
@@ -160,10 +160,10 @@
 			var obj2 = document.getElementById(thisId);	// akses field browse saat ini
 			var parse = obj2.value.split(".");
 			var ext = parse[parse.length-1];
-			if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif"
-			|| ext == "avi" || ext == "mp4" || ext == "mkv" || ext == "3gp" || ext == "flv" || ext == "ogg" || ext == "wmv"
-			|| ext == "doc" || ext == "docx" || ext == "pdf") {	// ekstensi file sesuai
-				if(obj1.nextSibling == null) {	// tidak memiliki field browse attachment kosong di bawahnya, tambahkan 1 field browse
+			if(ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif"
+			|| ext === "avi" || ext === "mp4" || ext === "mkv" || ext === "3gp" || ext === "flv" || ext === "ogg" || ext === "wmv"
+			|| ext === "doc" || ext === "docx" || ext === "pdf") {	// ekstensi file sesuai
+				if(obj1.nextSibling === null) {	// tidak memiliki field browse attachment kosong di bawahnya, tambahkan 1 field browse
 					var temp1 = document.createElement("DIV");
 					temp1.setAttribute("id","group"+document.getElementsByTagName("div").length);
 					temp1.setAttribute("name","group"+document.getElementsByTagName("div").length);
@@ -215,10 +215,10 @@
 			}
 			
 			xmlhttp.onreadystatechange = function() {
-				if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 					//alert("masuk" + xmlhttp.responseText);					
 				}
-			}
+			};
 			
 			xmlhttp.open("POST","addTask.php",false);
 			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
