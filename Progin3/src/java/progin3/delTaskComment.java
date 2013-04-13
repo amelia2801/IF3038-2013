@@ -38,9 +38,7 @@ public class delTaskComment extends HttpServlet {
         PrintWriter out = response.getWriter();
         Connection con = null;
         Statement stmt = null;
-        ResultSet rs1 = null;
-        ResultSet rs2 = null;
-        ResultSet rs3 = null;
+        int ri;
         try {
             /* TODO output your page here. You may use following sample code. */
             Class.forName("com.mysql.jdbc.Driver");
@@ -49,7 +47,7 @@ public class delTaskComment extends HttpServlet {
 
             int idkomentar = Integer.parseInt(request.getParameter("idcomment"));
                         
-            rs1 = stmt.executeQuery("DELETE FROM komentar WHERE id_komentar = '" + idkomentar + "';");
+            ri = stmt.executeUpdate("DELETE FROM komentar WHERE id_komentar = '" + idkomentar + "';");
             
         } catch (ClassNotFoundException ex) {
             throw new ServletException("JDBC Driver not found.", ex);
@@ -57,10 +55,6 @@ public class delTaskComment extends HttpServlet {
             throw new ServletException("Servlet could not display any records.", ex);
         } finally {   
             try {
-                if(rs1 != null) {
-                    rs1.close();
-                    rs1 = null;
-                }
                 if(stmt != null) {
                     stmt.close();
                     stmt = null;

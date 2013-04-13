@@ -383,7 +383,7 @@ vertical-align:middle;
 }
 
 #menu form input.box {
-background:url('./assets/searchbox.jpg') no-repeat;
+background:url('../searchbox.jpg') no-repeat;
 width: 230px;
 height: 30px;
 border: 0;
@@ -394,7 +394,7 @@ display:inline-block;
 }
 
 #menu form input.headerbutton {
-background:url('./assets/search_button.jpg') no-repeat;
+background:url('../search_button.jpg') no-repeat;
 width: 80px;
 height: 30px;
 border: 0;
@@ -410,7 +410,7 @@ vertical-align:top;
 }
 
 #menu form input.headerbutton:hover {
-background:url('./assets/search_click.jpg') no-repeat;
+background:url('../search_click.jpg') no-repeat;
 width: 80px;
 height: 30px;
 border: 0;
@@ -973,6 +973,10 @@ vertical-align:bottom;
 }
 /* Patrick */
 #state{
+visibility:hidden;
+}
+
+#thecreator{
 visibility:hidden;
 }
 

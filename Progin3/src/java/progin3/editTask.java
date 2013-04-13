@@ -37,45 +37,58 @@ public class editTask extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Connection con = null;
-        Statement stmt = null;
+        Statement stmt1 = null;
+        Statement stmt2 = null;
+        Statement stmt3 = null;
         ResultSet rs1 = null;
         ResultSet rs2 = null;
+        ResultSet rs3 = null;
         int ri;
-        
+        System.out.println("masuk");
         try {
             /* TODO output your page here. You may use following sample code. */
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
-            stmt = con.createStatement();
+            stmt1 = con.createStatement();
+            stmt2 = con.createStatement();
+            stmt3 = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 2;
+            int idtugas = 22;
             String namatugas = request.getParameter("namatugas");
             String tanggal = request.getParameter("date");
             String assignees = request.getParameter("assignee");
             String tags = request.getParameter("tag");
             String status = request.getParameter("status");
             
+            String idcreator = request.getParameter("idcreator");
+            
+            rs3 = stmt3.executeQuery("SELECT username FROM user WHERE id_user='" + idcreator + "'");
+            rs3.next();
+            assignees = assignees + "," + rs3.getString(1);
+            
+            System.out.println("nih"+assignees);
+            
             String assignee[] = assignees.split(",");
             String tag[] = tags.split(",");
             
-            System.out.println(tanggal);
+//            System.out.println(tanggal);
             
-            ri = stmt.executeUpdate("UPDATE tugas SET nama_tugas = '" + namatugas + "', status_tugas = '" + status + "', deadline = date('" + tanggal + "') WHERE id_tugas = '" + idtugas + "'");
+            ri = stmt1.executeUpdate("UPDATE tugas SET nama_tugas = '" + namatugas + "', status_tugas = '" + status + "', deadline = date('" + tanggal + "') WHERE id_tugas = '" + idtugas + "'");
             
-            ri = stmt.executeUpdate("DELETE FROM tag WHERE id_tugas = '" + idtugas + "'");
+            ri = stmt1.executeUpdate("DELETE FROM tag WHERE id_tugas = '" + idtugas + "'");
             
-            ri = stmt.executeUpdate("DELETE FROM mengerjakan WHERE id_tugas = '" + idtugas + "'");
+            ri = stmt1.executeUpdate("DELETE FROM mengerjakan WHERE id_tugas = '" + idtugas + "'");
             
             for(int i=0;i<assignee.length;i++) {
-                rs2 = stmt.executeQuery("SELECT id_user FROM user WHERE username = '" + assignee[i] + "'");
+                rs2 = stmt2.executeQuery("SELECT id_user FROM user WHERE username = '" + assignee[i] + "'");
                 rs2.next();
                 String iduser = rs2.getString(1);
-                ri = stmt.executeUpdate("INSERT INTO mengerjakan (id_user,id_tugas) VALUES ('" + iduser + "','" + idtugas + "')");
+                ri = stmt1.executeUpdate("INSERT INTO mengerjakan (id_user,id_tugas) VALUES ('" + iduser + "','" + idtugas + "')");
             }
             
             for(int i=0;i<tag.length;i++) {
-                ri = stmt.executeUpdate("INSERT INTO tag (id_tugas,label) VALUES ('" + idtugas + "','" + tag[i] + "')");
+                ri = stmt1.executeUpdate("INSERT INTO tag (id_tugas,label) VALUES ('" + idtugas + "','" + tag[i] + "')");
             }
             
         } catch (ClassNotFoundException ex) {
@@ -88,9 +101,9 @@ public class editTask extends HttpServlet {
                     rs1.close();
                     rs1 = null;
                 }
-                if(stmt != null) {
-                    stmt.close();
-                    stmt = null;
+                if(stmt1 != null) {
+                    stmt1.close();
+                    stmt1 = null;
                 }
                 if(con != null) {
                     con.close();

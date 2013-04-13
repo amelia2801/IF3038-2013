@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PATRICKLT
  */
-public class getTaskAssignees extends HttpServlet {
+public class getTaskAssigneeWithoutCreator extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -39,31 +39,40 @@ public class getTaskAssignees extends HttpServlet {
         Connection con = null;
         Statement stmt1 = null;
         Statement stmt2 = null;
+        Statement stmt3 = null;
         ResultSet rs1 = null;
         ResultSet rs2 = null;
+        ResultSet rs3 = null;
         try {
             /* TODO output your page here. You may use following sample code. */
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt1 = con.createStatement();
             stmt2 = con.createStatement();
+            stmt3 = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;    
+            int idtugas = 22;
+            
             rs1 = stmt1.executeQuery("SELECT id_user FROM mengerjakan WHERE id_tugas = '" + idtugas + "';");
+            
+            rs3 = stmt3.executeQuery("SELECT id_user FROM tugas WHERE id_tugas = '" + idtugas + "';");
+            rs3.next();
             
             String temp = "";
             
             while(rs1.next()) {
-                rs2 = stmt2.executeQuery("SELECT username FROM user WHERE id_user = '" + rs1.getString(1) + "';");
-                rs2.next();
-//                System.out.println(rs2.getString(1));
-                if(temp.length() > 0) {
-                    temp = temp + "," + rs2.getString(1);
-		} else {
-                    temp = rs2.getString(1);
-		}
+                if(!rs3.getString(1).equals(rs1.getString(1))) {
+                    rs2 = stmt2.executeQuery("SELECT username FROM user WHERE id_user = '" + rs1.getString(1) + "';");
+                    rs2.next();
+                    if(temp.length() > 0) {
+                        temp = temp + "," + rs2.getString(1);
+                    } else {
+                        temp = rs2.getString(1);
+                    }
+                }
             }
+            System.out.println(temp);
             out.print(temp);
             
         } catch (ClassNotFoundException ex) {

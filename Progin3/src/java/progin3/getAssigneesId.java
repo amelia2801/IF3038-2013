@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PATRICKLT
  */
-public class getTaskAssignees extends HttpServlet {
+public class getAssigneesId extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -38,32 +38,29 @@ public class getTaskAssignees extends HttpServlet {
         PrintWriter out = response.getWriter();
         Connection con = null;
         Statement stmt1 = null;
-        Statement stmt2 = null;
         ResultSet rs1 = null;
-        ResultSet rs2 = null;
         try {
             /* TODO output your page here. You may use following sample code. */
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt1 = con.createStatement();
-            stmt2 = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;    
+            int idtugas = 22;  
+            System.out.println("c");
             rs1 = stmt1.executeQuery("SELECT id_user FROM mengerjakan WHERE id_tugas = '" + idtugas + "';");
             
             String temp = "";
-            
+            System.out.println("b");
             while(rs1.next()) {
-                rs2 = stmt2.executeQuery("SELECT username FROM user WHERE id_user = '" + rs1.getString(1) + "';");
-                rs2.next();
-//                System.out.println(rs2.getString(1));
+                System.out.println("a");
                 if(temp.length() > 0) {
-                    temp = temp + "," + rs2.getString(1);
-		} else {
-                    temp = rs2.getString(1);
-		}
+                    temp = temp + ";" + rs1.getString(1);
+                } else {
+                    temp = rs1.getString(1);
+                }
             }
+            
             out.print(temp);
             
         } catch (ClassNotFoundException ex) {
@@ -75,18 +72,6 @@ public class getTaskAssignees extends HttpServlet {
                 if(rs1 != null) {
                     rs1.close();
                     rs1 = null;
-                }
-                if(rs2 != null) {
-                    rs2.close();
-                    rs2 = null;
-                }
-                if(stmt1 != null) {
-                    stmt1.close();
-                    stmt1 = null;
-                }
-                if(stmt2 != null) {
-                    stmt2.close();
-                    stmt2 = null;
                 }
                 if(con != null) {
                     con.close();

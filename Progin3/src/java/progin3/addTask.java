@@ -11,7 +11,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,7 +44,9 @@ public class addTask extends HttpServlet {
         PrintWriter out = response.getWriter();
         Connection con = null;
         Statement stmt = null;
+        Statement stmt1 = null;
         ResultSet rs = null;
+        ResultSet rs1 = null;
         int ri;
         try {
             /* TODO output your page here. You may use following sample code. */
@@ -56,11 +61,32 @@ public class addTask extends HttpServlet {
             //int iduser = Integer.parseInt(request.getParameter("iduser"));
             int iduser = 1;
             
+            rs1 = stmt.executeQuery("SELECT username FROM user WHERE id_user = '" + iduser + "'");
+            rs1.next();
+            String maker = rs1.getString(1);
+//            System.out.println("nih" + maker);
             String tempassignee = request.getParameter("assignee");
             String temptag = request.getParameter("tag");
             String tempattach = request.getParameter("attach");
-            
-            String assignee[] = tempassignee.split(",");
+//            System.out.println("tes" + tempassignee);
+            List<String> assignee = new ArrayList<String>();
+            if(tempassignee.length() > 0) {
+                String tempassignee2[] = tempassignee.split(",");
+                assignee.addAll(Arrays.asList(tempassignee2));
+            }
+//            System.out.println(assignee.size());
+            int idx=0;
+            boolean flag = false;
+            while(idx < assignee.size() && !flag) {
+                if(maker.equals(assignee.get(idx))) flag = true;
+                idx++;
+            }
+            if(flag == false) {
+                assignee.add(maker);
+//                System.out.println("maker:" + maker);
+//                System.out.println("assignee" + assignee);
+                flag = true;
+            }
             String tag[] = temptag.split(",");
             String attach[] = tempattach.split(";");
 
@@ -70,8 +96,8 @@ public class addTask extends HttpServlet {
             rs.next();
             String idtugas = rs.getString(1);
             
-            for(int i=0;i<assignee.length;i++) {
-                rs = stmt.executeQuery("SELECT id_user FROM user WHERE username='" + assignee[i] + "';");
+            for(int i=0;i<assignee.size();i++) {
+                rs = stmt.executeQuery("SELECT id_user FROM user WHERE username='" + assignee.get(i) + "';");
                 rs.next();
                 String tempiduser = rs.getString(1);
                 ri = stmt.executeUpdate("INSERT INTO mengerjakan (id_user,id_tugas) VALUES ('" + tempiduser + "','" + idtugas + "');");
@@ -82,6 +108,7 @@ public class addTask extends HttpServlet {
             }
             
             for(int i=0;i<attach.length;i++) {
+//                System.out.println(attach[i]);
                 System.out.println(attach[i]);
                 ri = stmt.executeUpdate("INSERT INTO attachment (id_tugas,nama_file) VALUES ('" + idtugas + "','" + attach[i] + "');");
             }
@@ -107,6 +134,7 @@ public class addTask extends HttpServlet {
             } catch (SQLException e) {}
             out.close();
         }
+        System.out.println("keluar");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

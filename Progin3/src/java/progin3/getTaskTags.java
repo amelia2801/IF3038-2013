@@ -46,7 +46,7 @@ public class getTaskTags extends HttpServlet {
             stmt = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 2;
+            int idtugas = 22;
             
             rs1 = stmt.executeQuery("SELECT label FROM tag WHERE id_tugas = '" + idtugas + "';");
             

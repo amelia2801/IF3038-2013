@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+<%@page import="progin3.suggestion"%>
 <html>
 
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title> Banana Board - New Task </title>
-		<link rel="stylesheet" style="text/css" href="style.css">        
+		<link rel="stylesheet" type="text/css" href="style.css">        
 </head>
     
 <body onload="generateDate();initAttachment();">
 	<div id="content">
-		<?
+<!--		<?
 			include("header.php");
-		?>
+		?>-->
 
 		<div id="isi">
 			<div id="leftsidebar">
@@ -25,22 +26,22 @@
 		
 			<div id="rightsidebar">
 				<div id="wrapper-left">
-					<form class="task" name="MakeForm" enctype="multipart/form-data">
+                                        <form name="MakeForm" class="task" method="POST" action="UploadAttachments" enctype="multipart/form-data">
 						<ul>
 							<h1>Fill Details</h1>
 							<li>
 								<label for="tugas" >Nama Tugas</label>
-								<input id="tugas" name="tugas" type="text" maxlength="25" onkeyup="checkTaskName(this.value);"/><br>
+								<input id="tugas" name="tugas" type="text" maxlength="25"/><br>
 								<div id="errorTaskName"></div>
 							</li>
 							<li>
 								<label for="filebutton">Attachment</label>
 								<div id="attachmentGroup">
-								</div>
+                                                                </div>
 							</li>		
 							<li>
 								<label for="asignee">Assignee</label>
-								<input id="asignee" name="asignee" type="text" onkeyup="checkSuggestion(this.value);"/>
+								<input id="asignee" name="asignee" type="text"/>
 								<div id="suggestion"></div>
 								<span>*dipisahkan dengan ","</span>
 							</li>
@@ -52,7 +53,7 @@
 							<li>
 								<label for="deadline">Deadline</label>
 								<div id="defaultdate">
-									<input id="deadline" type="date" required/>
+									<input id="deadline" type="date"/>
 								</div>
 								<div id="customdate">
 									<select id="tanggallist">
@@ -64,21 +65,21 @@
 								</div>
 							</li>
 							<li>
-								<button class="task" name="submitbutton" type="submit" onClick="checkSubmission();"><b>Submit</b></button>
+                                                            <button class="task" name="submitbutton" type="submit" onclick="checkSubmission();"><b>Submit</b></button>
 							</li>
 						</ul>
 					</form>
 				</div>
 			</div>
 		</div>
-		<?
+<!--		<?
 			include("footer.php");
-		?>
+		?>-->
     </div>
 	
 		<script type="text/javascript">
 		var count = 0;
-		
+//		alert(count);
 		function checkTaskName(str) {
 			var flag=0;
 			var i=0;
@@ -95,6 +96,7 @@
 		}
 		
 		function checkSuggestion(str) {
+                        //alert("ceksugesti");
 			var obj = document.getElementById("suggestion");
 			if(str.length === 0) {
 				obj.innerHTML = "";
@@ -113,7 +115,12 @@
 						xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 					}
 					xmlhttp.onreadystatechange = function() {
+                                                //alert(xmlhttp);
+                                                //alert(xmlhttp.readyState);
+                                                //alert(str);
 						if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                                                        //alert(str);
+                                                        //alert(xmlhttp.responseText);
 							if(xmlhttp.responseText !== "empty" && xmlhttp.responseText !== "complete") {
 								obj.innerHTML = xmlhttp.responseText;
 								obj.style.visibility = "visible";
@@ -130,7 +137,7 @@
 							}
 						}
 					};
-					xmlhttp.open("GET","suggestion.php?str="+str,true);
+					xmlhttp.open("GET","suggestion?str="+str,true);
 					xmlhttp.send();
 				}
 			}
@@ -150,11 +157,13 @@
 			temp1.appendChild(temp2);
 			obj1.appendChild(temp1);
 			count++;
+//                        alert(document.getElementById("filebutton0"));
 		}
 
 		// checking extension and adding new field attachment according to condition
 		function attachmentCheck(thisId)
 		{
+//                        alert(thisId);
 			var obj0 = document.getElementById("attachmentGroup");	// akses group attachment keseluruhan
 			var obj1 = document.getElementById(thisId).parentNode;	// akses group field browse dan komentarnya
 			var obj2 = document.getElementById(thisId);	// akses field browse saat ini
@@ -162,7 +171,7 @@
 			var ext = parse[parse.length-1];
 			if(ext === "jpg" || ext === "jpeg" || ext === "png" || ext === "gif"
 			|| ext === "avi" || ext === "mp4" || ext === "mkv" || ext === "3gp" || ext === "flv" || ext === "ogg" || ext === "wmv"
-			|| ext === "doc" || ext === "docx" || ext === "pdf") {	// ekstensi file sesuai
+			|| ext === "doc" || ext === "docx" || ext === "pdf" || ext === "txt") {	// ekstensi file sesuai
 				if(obj1.nextSibling === null) {	// tidak memiliki field browse attachment kosong di bawahnya, tambahkan 1 field browse
 					var temp1 = document.createElement("DIV");
 					temp1.setAttribute("id","group"+document.getElementsByTagName("div").length);
@@ -180,7 +189,9 @@
 				obj1.firstChild.value="";
 				alert("can't upload *." + ext + ", please upload image/video/file only");
 			}
+//                        alert(document.getElementById("filebutton1"));
 			count++;
+//                        alert(count);
 		}
 		
 		function checkSubmission()
@@ -203,10 +214,12 @@
 			var year = document.getElementById("tahunlist").value;
 			var tanggal = year + "-" + month + "-" + day;
 			var id_cat = "<?echo $_GET['idcat'];?>";
-			
+			var id_user= "<?echo $_GET['iduser'];?>";
+                                
 			//alert("year" + year);
-			var params = "namatugas=" + taskname + "&date=" + tanggal + "&idcat=" + id_cat + "&assignee=" + assignees + "&tag=" + tags + "&attach=" + attachment;
+			var params = "namatugas=" + taskname + "&date=" + tanggal + "&idcat=" + id_cat + "&iduser=" + id_user + "&assignee=" + assignees + "&tag=" + tags + "&attach=" + attachment;
 			//alert(params);
+                        //alert(assignees);
 			var xmlhttp;
 			if(window.XMLHttpRequest) {
 				xmlhttp = new XMLHttpRequest();
@@ -216,11 +229,11 @@
 			
 			xmlhttp.onreadystatechange = function() {
 				if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-					//alert("masuk" + xmlhttp.responseText);					
+//					alert("masuk" + xmlhttp.responseText);					
 				}
 			};
 			
-			xmlhttp.open("POST","addTask.php",false);
+			xmlhttp.open("POST","addTask",false);
 			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xmlhttp.send(params);
 		}

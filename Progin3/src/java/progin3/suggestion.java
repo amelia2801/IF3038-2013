@@ -45,15 +45,6 @@ public class suggestion extends HttpServlet {
         String temp = "";
         try {
             /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet suggestion</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet suggestion at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
             //System.out.println("masuk nih1");
             Class.forName("com.mysql.jdbc.Driver");
 //            System.out.println("masuk nih2");
@@ -67,7 +58,7 @@ public class suggestion extends HttpServlet {
             while(rs.next()) {
 //                out.print(rs.getString(1));
                 if(s.regionMatches(0, rs.getString(1).toString(), 0, s.length())) {
-                    temp = rs.getString(1).toString() + "<br>";
+                    temp = temp + rs.getString(1).toString() + "<br>";
                     if(s.length() == rs.getString(1).toString().length()) {
                         temp = "complete";
                     }

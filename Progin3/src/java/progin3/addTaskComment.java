@@ -49,7 +49,7 @@ public class addTaskComment extends HttpServlet {
 //            int iduser = Integer.parseInt(request.getParameter("iduser"));
             int iduser = 2;
 //            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 2;
+            int idtugas = 22;
             String isikomentar = request.getParameter("isikomentar");
 //            System.out.println(isikomentar);
             

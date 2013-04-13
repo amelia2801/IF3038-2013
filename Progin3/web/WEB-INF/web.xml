@@ -52,6 +52,22 @@
         <servlet-name>editTask</servlet-name>
         <servlet-class>progin3.editTask</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getTaskCreator</servlet-name>
+        <servlet-class>progin3.getTaskCreator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAssigneesId</servlet-name>
+        <servlet-class>progin3.getAssigneesId</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getTaskAssigneeWithoutCreator</servlet-name>
+        <servlet-class>progin3.getTaskAssigneeWithoutCreator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadAttachments</servlet-name>
+        <servlet-class>progin3.UploadAttachments</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>suggestion</servlet-name>
         <url-pattern>/suggestion</url-pattern>
@@ -103,6 +119,22 @@
     <servlet-mapping>
         <servlet-name>editTask</servlet-name>
         <url-pattern>/editTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getTaskCreator</servlet-name>
+        <url-pattern>/getTaskCreator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAssigneesId</servlet-name>
+        <url-pattern>/getAssigneesId</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getTaskAssigneeWithoutCreator</servlet-name>
+        <url-pattern>/getTaskAssigneeWithoutCreator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadAttachments</servlet-name>
+        <url-pattern>/UploadAttachments</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

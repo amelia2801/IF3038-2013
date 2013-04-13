@@ -46,7 +46,7 @@ public class delTask extends HttpServlet {
             stmt = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 2;            
+            int idtugas = 22;            
             
             ri = stmt.executeUpdate("DELETE FROM tugas WHERE id_tugas = '" + idtugas + "';");
             

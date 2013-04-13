@@ -46,7 +46,7 @@ public class getTaskDeadline extends HttpServlet {
             stmt = con.createStatement();
 
 //            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 2;
+            int idtugas = 22;
             
             rs = stmt.executeQuery("SELECT deadline FROM tugas WHERE id_tugas = '" + idtugas + "';");
             rs.next();
