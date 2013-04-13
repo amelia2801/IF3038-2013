@@ -7,39 +7,39 @@
 
         <script type="text/javascript">
                     function getXmlHttpRequestObject() {
-                            if (window.XMLHttpRequest) {// Mozilla/Safari
-                                    return new XMLHttpRequest();
-                            } else if(window.ActiveXObject) {// IE
-                                    return new ActiveXObject("Microsoft.XMLHTTP");
-                            } else {
-                                    alert("Your Browser Sucks!");
-                            }
+                        if (window.XMLHttpRequest) {// Mozilla/Safari
+                            return new XMLHttpRequest();
+                        } else if(window.ActiveXObject) {// IE
+                            return new ActiveXObject("Microsoft.XMLHTTP");
+                        } else {
+                            alert("Your Browser Sucks!");
+                        }
                     }
                     var xmlHttpReq = getXmlHttpRequestObject();
                     var ids = null;
                     //Starts the AJAX request.
                     function changevalues(id) {
-                            ids = id;
-                            if (xmlHttpReq.readyState == 4 || xmlHttpReq.readyState == 0){
-                                    var str = document.getElementById('statustugas'+id).value;
-                                    var isCheck = document.getElementById('checklist'+id).checked;
-                                    xmlHttpReq.open("GET", 'ChangeTaskStatus.php?id='+id+'&ischeck='+isCheck, true);
-                                    xmlHttpReq.onreadystatechange = handleStatusChange; 
-                                    xmlHttpReq.send(null);
-                            }		
+                        ids = id;
+                        if (xmlHttpReq.readyState == 4 || xmlHttpReq.readyState == 0){
+                            var str = document.getElementById('statustugas'+id).value;
+                            var isCheck = document.getElementById('checklist'+id).checked;
+                            xmlHttpReq.open("GET", 'ChangeTaskStatus?id='+id+'&ischeck='+isCheck, true);
+                            xmlHttpReq.onreadystatechange = handleStatusChange; 
+                            xmlHttpReq.send(null);
+                        }		
                     }
 
                     //Called when the AJAX response is returned.
                     function handleStatusChange() {
-                            if (xmlHttpReq.readyState == 4) {
-                                    var str =xmlHttpReq.responseText;
-                                    id = "statustugas"+ids;
-                                    if(document.getElementById(id).innerHTML == "in progress"){
-                                            document.getElementById(id).innerHTML = "done";
-                                    }else{
-                                            document.getElementById(id).innerHTML = "in progress";
-                                    }
+                        if (xmlHttpReq.readyState == 4) {
+                            var str =xmlHttpReq.responseText;
+                            id = "statustugas"+ids;
+                            if(document.getElementById(id).innerHTML == "in progress"){
+                                document.getElementById(id).innerHTML = "done";
+                            }else{
+                                document.getElementById(id).innerHTML = "in progress";
                             }
+                        }
                     }
             </script>
     </head>

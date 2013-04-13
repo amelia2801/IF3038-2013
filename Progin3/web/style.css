@@ -17,6 +17,13 @@ width: 70px;
 margin: 10px 10px 0 0;
 }
 /* ---- Pop Up Tambah Kategori----*/
+#suggest{
+left: 880px !important;
+width: 230px !important;
+position: absolute !important;
+z-index: 100 !important;
+top: 120px !important;
+}
 #popup{
 z-index:0;
 background-color:#666;
