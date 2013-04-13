@@ -53,8 +53,8 @@ public class editTask extends HttpServlet {
             stmt2 = con.createStatement();
             stmt3 = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 22;
+            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
+//            int idtugas = 22;
             String namatugas = request.getParameter("namatugas");
             String tanggal = request.getParameter("date");
             String assignees = request.getParameter("assignee");
@@ -65,7 +65,14 @@ public class editTask extends HttpServlet {
             
             rs3 = stmt3.executeQuery("SELECT username FROM user WHERE id_user='" + idcreator + "'");
             rs3.next();
-            assignees = assignees + "," + rs3.getString(1);
+            System.out.println("assignees:" + assignees);
+            if(assignees.length()==0) {
+                System.out.println("kosong");
+                assignees = rs3.getString(1);
+            } else {
+                System.out.println("ada: " + assignees);
+                assignees = assignees + "," + rs3.getString(1);
+            }
             
             System.out.println("nih"+assignees);
             

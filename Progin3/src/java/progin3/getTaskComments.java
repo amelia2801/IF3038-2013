@@ -51,8 +51,8 @@ public class getTaskComments extends HttpServlet {
             stmt2 = con.createStatement();
             stmt3 = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;
+            int idtugas = Integer.parseInt(request.getParameter("id"));
+//            int idtugas = 22;
             int state = Integer.parseInt(request.getParameter("state"));
             
             int start = (state * 10) - 10;

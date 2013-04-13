@@ -45,8 +45,8 @@ public class delTask extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 22;            
+            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
+//            int idtugas = 22;            
             
             ri = stmt.executeUpdate("DELETE FROM tugas WHERE id_tugas = '" + idtugas + "';");
             
@@ -67,6 +67,7 @@ public class delTask extends HttpServlet {
             } catch (SQLException e) {}
             out.close();
         }
+        response.sendRedirect("src/home.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

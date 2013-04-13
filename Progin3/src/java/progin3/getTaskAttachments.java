@@ -45,8 +45,8 @@ public class getTaskAttachments extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;
+            int idtugas = Integer.parseInt(request.getParameter("id"));
+//            int idtugas = 22;
             
             rs1 = stmt.executeQuery("SELECT nama_file FROM attachment WHERE id_tugas = '" + idtugas + "';");
             

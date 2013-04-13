@@ -46,10 +46,10 @@ public class addTaskComment extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt = con.createStatement();
 
-//            int iduser = Integer.parseInt(request.getParameter("iduser"));
-            int iduser = 2;
-//            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
-            int idtugas = 22;
+            int iduser = Integer.parseInt(request.getParameter("iduser"));
+//            int iduser = 2;
+            int idtugas = Integer.parseInt(request.getParameter("idtugas"));
+//            int idtugas = 22;
             String isikomentar = request.getParameter("isikomentar");
 //            System.out.println(isikomentar);
             

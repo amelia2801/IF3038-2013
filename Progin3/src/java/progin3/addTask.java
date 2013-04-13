@@ -40,31 +40,46 @@ public class addTask extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        System.out.println("nih");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Connection con = null;
         Statement stmt = null;
         Statement stmt1 = null;
+        Statement stmt2 = null;
+        Statement stmt3 = null;
+        Statement stmt4 = null;
         ResultSet rs = null;
         ResultSet rs1 = null;
+        ResultSet rs2 = null;
+        ResultSet rs3 = null;
+        ResultSet rs4 = null;
         int ri;
+//        out.print("arghhh");
+        
         try {
             /* TODO output your page here. You may use following sample code. */
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt = con.createStatement();
+            stmt1 = con.createStatement();
+            stmt2 = con.createStatement();
+            stmt3 = con.createStatement();
+            stmt4 = con.createStatement();
 
             String taskname = request.getParameter("namatugas");
             String date = request.getParameter("date");
-            //int idcat = Integer.parseInt(request.getParameter("idcat"));
-            int idcat = 1;
-            //int iduser = Integer.parseInt(request.getParameter("iduser"));
-            int iduser = 1;
-            
-            rs1 = stmt.executeQuery("SELECT username FROM user WHERE id_user = '" + iduser + "'");
+            int idcat = Integer.parseInt(request.getParameter("idcat"));
+//            int idcat = 1;
+            int iduser = Integer.parseInt(request.getParameter("iduser"));
+//            int iduser = 1;
+            System.out.println("idcat:" + idcat);
+            System.out.println("iduser:" + iduser);
+            rs1 = stmt1.executeQuery("SELECT username FROM user WHERE id_user = '" + iduser + "'");
             rs1.next();
             String maker = rs1.getString(1);
-//            System.out.println("nih" + maker);
+            
+            System.out.println("nih" + maker);
             String tempassignee = request.getParameter("assignee");
             String temptag = request.getParameter("tag");
             String tempattach = request.getParameter("attach");
@@ -89,23 +104,34 @@ public class addTask extends HttpServlet {
             }
             String tag[] = temptag.split(",");
             String attach[] = tempattach.split(";");
-
-            ri = stmt.executeUpdate("INSERT INTO tugas (id_tugas,id_user,nama_tugas,deadline,id_kategori,status_tugas) VALUES (NULL,'" + iduser + "','" + taskname + "',DATE('" + date + "'),'" + idcat + "','in progress');");
+            System.out.println(assignee);
+            ri = stmt.executeUpdate("INSERT INTO tugas (id_tugas,id_user_pembuat,nama_tugas,deadline,id_kategori,status_tugas) VALUES (NULL,'" + iduser + "','" + taskname + "',DATE('" + date + "'),'" + idcat + "','in progress');");
                     
-            rs = stmt.executeQuery("SELECT id_tugas FROM tugas WHERE nama_tugas = '" + taskname + "';");
-            rs.next();
-            String idtugas = rs.getString(1);
+            rs2 = stmt2.executeQuery("SELECT id_tugas FROM tugas WHERE nama_tugas = '" + taskname + "';");
+            rs2.next();
+            String idtugas = rs2.getString(1);
             
             for(int i=0;i<assignee.size();i++) {
-                rs = stmt.executeQuery("SELECT id_user FROM user WHERE username='" + assignee.get(i) + "';");
-                rs.next();
-                String tempiduser = rs.getString(1);
+                rs3 = stmt3.executeQuery("SELECT id_user FROM user WHERE username='" + assignee.get(i) + "'");
+                rs3.next();
+                String tempiduser = rs3.getString(1);
+                rs4 = stmt4.executeQuery("SELECT * FROM anggota WHERE id_user = '" + tempiduser + "'");
+                System.out.println("iduser: " + tempiduser);
+                boolean flag1 = false;
+                while(!flag1 && rs4.next()) {
+                    System.out.println("idkategori:" + rs4.getString("id_kategori"));
+                    if(Integer.parseInt(rs4.getString("id_kategori")) == idcat) flag1 = true;
+                }
+                System.out.println(flag1);
+                if(!flag1) ri = stmt.executeUpdate("INSERT INTO anggota (id_user,id_kategori,status) VALUES ('" + tempiduser + "','" + idcat  + "','ongoing')");
                 ri = stmt.executeUpdate("INSERT INTO mengerjakan (id_user,id_tugas) VALUES ('" + tempiduser + "','" + idtugas + "');");
             }
             
             for(int i=0;i<tag.length;i++) {
                 ri = stmt.executeUpdate("INSERT INTO tag (id_tugas,label) VALUES ('" + idtugas + "','" + tag[i] + "');");
             }
+            
+            
             
             for(int i=0;i<attach.length;i++) {
 //                System.out.println(attach[i]);

@@ -51,8 +51,8 @@ public class getTaskAssigneeWithoutCreator extends HttpServlet {
             stmt2 = con.createStatement();
             stmt3 = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;
+            int idtugas = Integer.parseInt(request.getParameter("id"));
+//            int idtugas = 22;
             
             rs1 = stmt1.executeQuery("SELECT id_user FROM mengerjakan WHERE id_tugas = '" + idtugas + "';");
             

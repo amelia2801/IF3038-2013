@@ -45,8 +45,8 @@ public class getAssigneesId extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
             stmt1 = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;  
+            int idtugas = Integer.parseInt(request.getParameter("id"));
+//            int idtugas = 22;  
             System.out.println("c");
             rs1 = stmt1.executeQuery("SELECT id_user FROM mengerjakan WHERE id_tugas = '" + idtugas + "';");
             

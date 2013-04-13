@@ -48,8 +48,8 @@ public class getTaskAssignees extends HttpServlet {
             stmt1 = con.createStatement();
             stmt2 = con.createStatement();
 
-//            int idtugas = Integer.parseInt(request.getParameter("id"));
-            int idtugas = 22;    
+            int idtugas = Integer.parseInt(request.getParameter("id"));
+//            int idtugas = 22;    
             rs1 = stmt1.executeQuery("SELECT id_user FROM mengerjakan WHERE id_tugas = '" + idtugas + "';");
             
             String temp = "";

@@ -55,7 +55,7 @@ public class UploadAttachments extends HttpServlet {
                 }
                 is.close();
             }
-            response.sendRedirect("taskdetails.jsp");
+            response.sendRedirect("src/home.jsp");
     }
     
     private String getFileName(Part part) {

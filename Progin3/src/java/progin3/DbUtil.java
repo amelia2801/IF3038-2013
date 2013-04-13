@@ -27,7 +27,7 @@ public class DbUtil {
         else {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093", "progin", "progin");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost/progin_405_13510093", "progin", "progin");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

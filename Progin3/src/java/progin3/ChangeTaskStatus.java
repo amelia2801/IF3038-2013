@@ -7,20 +7,22 @@ package progin3;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import progin3.DbUtil;
 
 /**
  *
- * @author PATRICKLT
+ * @author Anasthasia
  */
-public class getTaskDeadline extends HttpServlet {
+@WebServlet(urlPatterns = {"/ChangeTaskStatus"})
+public class ChangeTaskStatus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -36,41 +38,26 @@ public class getTaskDeadline extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Connection con = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet change = null;
+        ResultSet change1 = null;
         try {
             /* TODO output your page here. You may use following sample code. */
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/progin_405_13510093","progin","progin");
-            stmt = con.createStatement();
-
-            int idtugas = Integer.parseInt(request.getParameter("id"));
-//            int idtugas = 22;
-            
-            rs = stmt.executeQuery("SELECT deadline FROM tugas WHERE id_tugas = '" + idtugas + "';");
-            rs.next();
-            out.print(rs.getString(1));
-            
-        } catch (ClassNotFoundException ex) {
-            throw new ServletException("JDBC Driver not found.", ex);
-        } catch (SQLException ex) {
+            String getid = request.getParameter("id");
+            String getcheck = request.getParameter("ischeck");
+            Connection conn = DbUtil.getConnection();
+            Statement st = conn.createStatement();
+            Statement st1 = conn.createStatement(); 
+            if("true".equals(getcheck)){
+                st.executeUpdate("UPDATE `progin_405_13510093`.`tugas` SET `status_tugas` = 'done' WHERE `tugas`.`id_tugas` = '"+getid+"';");
+                change = st1.executeQuery("SELECT a.status_tugas FROM `tugas` as a natural join `tag` as b WHERE a.`id_tugas` = '"+getid+"';");
+            }else{
+                st.executeUpdate("UPDATE `progin_405_13510093`.`tugas` SET `status_tugas` = 'in progress' WHERE `tugas`.`id_tugas` = '"+getid+"';");
+                change = st1.executeQuery("SELECT a.status_tugas FROM `tugas` as a natural join `tag` as b WHERE a.`id_tugas` = '"+getid+"';");
+            }
+        }catch(SQLException ex){
             throw new ServletException("Servlet could not display any records.", ex);
-        } finally {   
-            try {
-                if(rs != null) {
-                    rs.close();
-                    rs = null;
-                }
-                if(stmt != null) {
-                    stmt.close();
-                    stmt = null;
-                }
-                if(con != null) {
-                    con.close();
-                    con = null;
-                }
-            } catch (SQLException e) {}
+        } 
+        finally {           
             out.close();
         }
     }
