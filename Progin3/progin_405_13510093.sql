@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2013 at 10:54 AM
+-- Generation Time: Apr 25, 2013 at 06:54 AM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -68,7 +68,8 @@ INSERT INTO `attachment` (`id_tugas`, `nama_file`) VALUES
 (2, 'TubesII.pdf'),
 (2, 'Wildlife.wmv'),
 (41, ''),
-(42, '');
+(42, ''),
+(45, '');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `kategori` (
   `id_kategori` int(5) NOT NULL AUTO_INCREMENT,
   `nama_kategori` varchar(25) NOT NULL,
   PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `kategori`
@@ -106,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `komentar` (
   PRIMARY KEY (`id_komentar`,`id_user`,`id_tugas`),
   KEY `id_user` (`id_user`),
   KEY `id_tugas` (`id_tugas`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `komentar`
@@ -127,7 +128,9 @@ INSERT INTO `komentar` (`id_komentar`, `id_user`, `id_tugas`, `isi_komentar`, `t
 (16, 2, 2, 'qwerty', '2013-04-12 06:57:40'),
 (17, 2, 2, 'bleketek', '2013-04-12 06:57:56'),
 (18, 2, 2, 'zzz', '2013-04-12 07:00:10'),
-(19, 3, 3, 'jujuj', '2013-04-13 11:57:02');
+(19, 3, 3, 'jujuj', '2013-04-13 11:57:02'),
+(20, 3, 2, 'berhasil', '2013-04-19 12:26:01'),
+(21, 3, 2, 'ajax', '2013-04-19 12:26:14');
 
 -- --------------------------------------------------------
 
@@ -154,7 +157,8 @@ INSERT INTO `mengerjakan` (`id_user`, `id_tugas`) VALUES
 (1, 41),
 (2, 41),
 (1, 42),
-(3, 42);
+(3, 42),
+(3, 45);
 
 -- --------------------------------------------------------
 
@@ -166,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `id_tugas` int(5) NOT NULL AUTO_INCREMENT,
   `label` varchar(25) NOT NULL,
   PRIMARY KEY (`id_tugas`,`label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `tag`
@@ -181,7 +185,8 @@ INSERT INTO `tag` (`id_tugas`, `label`) VALUES
 (4, 'lomba'),
 (41, ''),
 (42, 'game'),
-(42, 'sister');
+(42, 'sister'),
+(45, 'amel');
 
 -- --------------------------------------------------------
 
@@ -199,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `tugas` (
   PRIMARY KEY (`id_tugas`),
   KEY `id_kategori` (`id_kategori`),
   KEY `id_user_pembuat` (`id_user_pembuat`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `tugas`
@@ -210,8 +215,10 @@ INSERT INTO `tugas` (`id_tugas`, `id_user_pembuat`, `nama_tugas`, `deadline`, `i
 (2, 2, 'nih', '2013-04-12', 1, 'done'),
 (3, 3, 'merancang GUI', '2013-03-05', 2, 'done'),
 (4, 1, 'membuat flow', '2013-03-01', 2, 'in progress'),
-(41, 2, 'blablalba', '1955-01-01', 1, 'done'),
-(42, 3, 'membuat gameplay', '2013-04-16', 3, 'in progress');
+(41, 2, 'blablalba', '1955-01-01', 1, 'in progress'),
+(42, 3, 'membuat gameplay', '2013-04-16', 3, 'in progress'),
+(44, 3, 'halaman', '1955-01-01', 1, 'in progress'),
+(45, 3, 'tes', '1955-01-01', 1, 'in progress');
 
 -- --------------------------------------------------------
 
@@ -228,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `tanggal_lahir` date NOT NULL,
   `avatar` varchar(200) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user`
@@ -237,7 +244,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `username`, `password`, `tanggal_lahir`, `avatar`) VALUES
 (1, 'Anasthasia Amelia', 'amelia@gmail.com', 'amelia2801', 'bluedemon', '1955-01-01', 'upload/foto.jpg'),
 (2, 'Patrick Lumban Tobing', 'patrick@hotmail.com', 'patricktobing', 'spongebob', '1992-03-17', 'upload/dog.jpg'),
-(3, 'Benedikus Holyson', 'benny.h@gmail.com', 'benny92', 'benbenben', '1992-04-20', './upload/nature-scotty-bobby-uploads-content-dizorb-428992.jpg');
+(3, 'bucaka bucaka', 'benny.h@gmail.com', 'benny92', 'benbenbenben', '1955-01-01', './upload/nature-scotty-bobby-uploads-content-dizorb-428992.jpg'),
+(4, 'aaa bbbb', 'asdasdas@asd.sds.sd', 'admin', 'asdfasdf', '2006-05-14', './upload/1.jpg');
 
 --
 -- Constraints for dumped tables
@@ -280,8 +288,8 @@ ALTER TABLE `tag`
 -- Constraints for table `tugas`
 --
 ALTER TABLE `tugas`
-  ADD CONSTRAINT `tugas_ibfk_2` FOREIGN KEY (`id_user_pembuat`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tugas_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tugas_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tugas_ibfk_2` FOREIGN KEY (`id_user_pembuat`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
