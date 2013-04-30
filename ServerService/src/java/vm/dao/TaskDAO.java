@@ -45,7 +45,7 @@ public class TaskDAO extends DataAccessObject {
         return task;
     }
     
-public String getTaskId(String taskname,String categoryid){
+    public String getTaskId(String taskname,String categoryid){
         String toOut ="";
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT taskid FROM task WHERE taskname =? AND categoryid=?");
@@ -57,6 +57,15 @@ public String getTaskId(String taskname,String categoryid){
             e.printStackTrace();
         }
         return toOut;
+    }
+    
+    public String GetNextTaskId() throws Exception{
+        String nextId = null;
+        PreparedStatement stmt = conn.prepareStatement("SELECT max(taskid) as maxid FROM task");        
+        ResultSet result = stmt.executeQuery();
+        result.next();
+        nextId = ""+(Integer.parseInt(result.getString("maxid"))+1);
+        return nextId;
     }
 
     public int addAssignee(int idtask, String username){

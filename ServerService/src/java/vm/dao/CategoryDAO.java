@@ -22,7 +22,7 @@ public class CategoryDAO extends DataAccessObject{
         return toOut;
     }
 	
-	public int addCategory(int idcategory, String namecategory, String username, Date datecreated) {
+    public int addCategory(int idcategory, String namecategory, String username, Date datecreated) {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO 'category'('categoryid','categoryname','username','createddate') VALUES (?,?,?,?);");
             preparedStatement.setInt(1, idcategory);
@@ -34,5 +34,14 @@ public class CategoryDAO extends DataAccessObject{
             e.printStackTrace();
             return -1;
         }
+    }
+        
+    public String GetNextCategoryId() throws Exception{
+        String nextId = null; 
+        PreparedStatement stmt = conn.prepareStatement("SELECT max(categoryid) as maxid FROM category");        
+        ResultSet result = stmt.executeQuery();
+        result.next();
+        nextId = ""+(Integer.parseInt(result.getString("maxid"))+1);
+        return nextId;
     }
 }

@@ -49,27 +49,59 @@ public class TagDAO extends DataAccessObject{
         return toOut;
     }
     
-    public String[] GetTagId(String tagname){
-        String[] out = null;
+    public String GetTagId1(String tagname){
+        String out = null;
         
         try {
-            PreparedStatement st1 = conn.prepareStatement("SELECT tagid FROM tag WHERE tagname =?");
-            ResultSet result1 = st1.executeQuery();
-            result1.next();
-            out[0] = result1.getString("tagid");
-            
-            PreparedStatement st2 = conn.prepareStatement("SELECT max(tagid) as maxid FROM tag");
-            ResultSet result2 = st2.executeQuery();
-            result2.next();
-            out[1] = ""+(Integer.parseInt(result2.getString("maxid"))+1);
-            
-            PreparedStatement st3 = conn.prepareStatement("INSERT INTO tag values (?,?)");
-            ResultSet result3 = st3.executeQuery();
-            result3.next();
-            out[2] = GetTagId(t agname);            
+            PreparedStatement st = conn.prepareStatement("SELECT tagid FROM tag WHERE tagname =?");
+            ResultSet result = st.executeQuery();
+            result.next();
+            out = result.getString("tagid");
         } catch (Exception ex) {
             return "Error : "+ex.toString();
         }
         return out;
     }
+    
+       public String GetTagId2(){
+        String out = null;
+        
+        try {
+            PreparedStatement st = conn.prepareStatement("SELECT max(tagid) as maxid FROM tag");
+            ResultSet result = st.executeQuery();
+            result.next();
+            out = ""+(Integer.parseInt(result.getString("maxid"))+1);           
+        } catch (Exception ex) {
+            return "Error : "+ex.toString();
+        }
+        return out;
+    }
+       
+    public String GetTagId3(String nextid, String tagname){
+        String out = null;
+        
+        try {
+            PreparedStatement st = conn.prepareStatement("INSERT INTO tag values (?,?)");
+            ResultSet result = st.executeQuery();
+            result.next();           
+            // INI KEMBALIANNYA APA YAAA???
+        } catch (Exception ex) {
+            return "Error : "+ex.toString();
+        }
+        return out;
+    }
+    
+    public String IsTagExist(String tagname){
+        String out = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as count FROM tag WHERE tagname =?");            
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            out = result.getString("count");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return out;
+    }
 }
+
