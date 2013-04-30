@@ -1,23 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package vm.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-/**
- *
- * @author Anasthasia
- */
 public class UserDAO extends DataAccessObject{
     
     public HashMap<String, String> getUser(String username){
@@ -43,5 +32,10 @@ public class UserDAO extends DataAccessObject{
         }
         return user;
     }
-    
+	
+     public int addUser(User user) {
+        vm.soap.user.UserSoap_Service service = new vm.soap.user.UserSoap_Service();
+        vm.soap.user.UserSoap port = service.getUserSoapPort();
+        return port.addUser(user.toJsonObject().toString());
+    }
 }

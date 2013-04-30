@@ -1,23 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package vm.dao;
-
-import java.sql.Connection;
+import vm.model.Category;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-/**
- *
- * @author Anasthasia
- */
 public class CategoryDAO extends DataAccessObject{
     public String getCategoryName(String categoryid){
         String toOut ="";
@@ -30,5 +20,19 @@ public class CategoryDAO extends DataAccessObject{
             e.printStackTrace(); 
         }
         return toOut;
+    }
+	
+	public int addCategory(int idcategory, String namecategory, String username, Date datecreated) {
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO 'category'('categoryid','categoryname','username','createddate') VALUES (?,?,?,?);");
+            preparedStatement.setInt(1, idcategory);
+            preparedStatement.setString(2, namecategory);
+            preparedStatement.setString(3, username);
+            preparedStatement.setDate(4, datecreated);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

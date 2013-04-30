@@ -4,14 +4,13 @@
  */
 package vm.dao;
 
-import java.sql.Connection;
 import vm.model.Task;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.logging.Level;
+import java.sql.Date;import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -42,10 +41,11 @@ public class TaskDAO extends DataAccessObject {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
         return task;
     }
     
-    public String getTaskId(String taskname,String categoryid){
+public String getTaskId(String taskname,String categoryid){
         String toOut ="";
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT taskid FROM task WHERE taskname =? AND categoryid=?");
@@ -57,5 +57,81 @@ public class TaskDAO extends DataAccessObject {
             e.printStackTrace();
         }
         return toOut;
+    }
+
+    public int addAssignee(int idtask, String username){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `assignee`(`username`, `taskid`) VALUES (?, ?);");
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, idtask);
+
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+            return -1;
+    }
+    
+    public int addTag(int idtag, String nametag){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `tag`(`tagid`, `tagname`) VALUES (?,?); ");
+            preparedStatement.setInt(1, idtag);
+            preparedStatement.setString(2, nametag);
+
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return -1;
+    }
+    
+    public int addTagtoTask(int idtask, int idtag){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `task_tag`(`taskid`, `tagid`) VALUES (?,?); ");
+            preparedStatement.setInt(1, idtask);
+            preparedStatement.setInt(2, idtag);
+
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return -1;
+    }
+    
+    public int addTask(int taskid, String taskname, String nameuser, Date datecreated, Date linedead, String status, int idcategory) {
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO 'task'('taskid','taskname','username','createddate','deadline','status','categoryid') VALUES (?,?,?,?,?,?,?);");
+            preparedStatement.setInt(1, taskid);
+            preparedStatement.setString(2, taskname);
+            preparedStatement.setString(3, nameuser);
+            preparedStatement.setDate(4, datecreated);
+            preparedStatement.setDate(5, linedead);
+            preparedStatement.setString(6, status);
+            preparedStatement.setInt(7, idcategory);
+            
+            preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    
+    public int addAttachment(String namefile, int idtask){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `attachment`(`filename`, `taskid`) VALUES (?,?); ");
+            preparedStatement.setString(1, namefile);
+            preparedStatement.setInt(2, idtask);
+
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return -1;
     }
 }
