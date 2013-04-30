@@ -4,6 +4,7 @@
  */
 package vm.rest;
 
+import vm.dao.TaskDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Matcher;
@@ -12,8 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 
-import vm.bb.*;
+
 
 /**
  *
@@ -23,6 +25,11 @@ public class TaskRest extends HttpServlet {
 
     private Pattern regexTaskID = Pattern.compile("^/([0-9]{1,})$");
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
+    public TaskRest(){
+        super();
+    }
+    
     /**
      * Handles the HTTP
      * <code>GET</code> method.
@@ -42,7 +49,7 @@ public class TaskRest extends HttpServlet {
         matcher = regexTaskID.matcher(pathInfo);
         if(matcher.find()){
             TaskDAO task = new TaskDAO();
-            out.print(task.getTask(Integer.parseInt(matcher.group(1))));
+            out.print(task.getTask(Integer.parseInt(matcher.group(1))).toJsonObject());
         }
     }
 
