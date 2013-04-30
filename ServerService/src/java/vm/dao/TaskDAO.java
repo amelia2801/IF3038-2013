@@ -8,8 +8,8 @@ import vm.model.Task;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.sql.Date;import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -18,16 +18,24 @@ import java.util.logging.Logger;
  */
 public class TaskDAO extends DataAccessObject {
     
-    public Task getTask(int idtask){
-        Task task = null;
+    public HashMap<String, String> getTask(int idtask){
+        HashMap<String, String> task = null;
         try {
+            task = new HashMap<String, String>();
+            
             PreparedStatement preparedstatement = conn.prepareStatement("SELECT * FROM `task` WHERE taskid=?;");
             preparedstatement.setInt(1, idtask);
             ResultSet rs = preparedstatement.executeQuery();
             
             if(rs.next()){
-                task = new Task();
-                task.setTaskID(rs.getInt("taskid"));
+                task.put("taskid", rs.getString("taskid"));
+                task.put("taskname", rs.getString("taskname"));
+                task.put("username", rs.getString("username"));
+                task.put("createddate", rs.getString("createddate"));
+                task.put("deadline", rs.getString("deadline"));
+                task.put("status", rs.getString("status"));
+                task.put("categoryid", rs.getString("categoryid"));
+                //task.setTaskID(rs.getInt("taskid"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

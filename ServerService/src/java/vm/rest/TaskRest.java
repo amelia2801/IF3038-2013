@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 
@@ -49,7 +50,7 @@ public class TaskRest extends HttpServlet {
         matcher = regexTaskID.matcher(pathInfo);
         if(matcher.find()){
             TaskDAO task = new TaskDAO();
-            out.print(task.getTask(Integer.parseInt(matcher.group(1))).toJsonObject());
+            out.print(new JSONObject(task.getTask(Integer.parseInt(matcher.group(1)))));
         }
     }
 
