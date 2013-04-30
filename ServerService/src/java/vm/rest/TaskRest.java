@@ -24,7 +24,8 @@ import org.json.JSONObject;
  */
 public class TaskRest extends HttpServlet {
 
-    private Pattern regexTaskID = Pattern.compile("^/([0-9]{1,})$");
+    private Pattern regexTaskID = Pattern.compile("^/([\\w._%].*)/([0-9]{1,})$");
+    private Pattern regexTask = Pattern.compile("^/([0-9]{1,})$");
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     
     public TaskRest(){
@@ -47,10 +48,16 @@ public class TaskRest extends HttpServlet {
         String pathInfo = request.getPathInfo();
         Matcher matcher;
         
-        matcher = regexTaskID.matcher(pathInfo);
+        matcher = regexTask.matcher(pathInfo);
         if(matcher.find()){
             TaskDAO task = new TaskDAO();
             out.print(new JSONObject(task.getTask(Integer.parseInt(matcher.group(1)))));
+        }
+        
+        matcher = regexTaskID.matcher(pathInfo);
+        if(matcher.find()){
+            TaskDAO task = new TaskDAO();
+            out.print(new JSONObject(task.getTask(Integer.parseInt(matcher.group(2)))));
         }
     }
 

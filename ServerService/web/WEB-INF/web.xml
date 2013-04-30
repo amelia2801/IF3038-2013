@@ -8,6 +8,10 @@
         <servlet-name>TaskRest</servlet-name>
         <servlet-class>vm.rest.TaskRest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserRest</servlet-name>
+        <servlet-class>vm.rest.UserRest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/api/user/*</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>TaskRest</servlet-name>
         <url-pattern>/rest/task/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserRest</servlet-name>
+        <url-pattern>/rest/user/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

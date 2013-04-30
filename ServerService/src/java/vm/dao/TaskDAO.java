@@ -4,10 +4,12 @@
  */
 package vm.dao;
 
+import java.sql.Connection;
 import vm.model.Task;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,8 +42,20 @@ public class TaskDAO extends DataAccessObject {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
         return task;
     }
     
+    public String getTaskId(String taskname,String categoryid){
+        String toOut ="";
+        try{
+            PreparedStatement stt = conn.prepareStatement("SELECT taskid FROM task WHERE taskname =? AND categoryid=?");
+            
+            ResultSet rs = stt.executeQuery();
+            rs.next();
+            toOut = rs.getString("taskid");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return toOut;
+    }
 }
