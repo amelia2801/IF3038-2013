@@ -32,8 +32,27 @@ public class UserDAO extends DataAccessObject{
         }
         return user;
     }
-	
-     public int addUser(User user) {
+    
+    public String countValidIDPass(String username, String pass){
+        String out = null;
+        PreparedStatement preparedstatement;
+        try {
+             preparedstatement = conn.prepareStatement("SELECT count(*) as JUMLAH FROM user WHERE username=? AND password=?;");
+             preparedstatement.setString(1, username);
+             preparedstatement.setString(2, pass);
+             ResultSet rs = preparedstatement.executeQuery();
+             if(rs.next()){
+                 out = rs.getString(1);
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return out;
+       
+    }
+    
+    public int addUser(User user) {
         vm.soap.user.UserSoap_Service service = new vm.soap.user.UserSoap_Service();
         vm.soap.user.UserSoap port = service.getUserSoapPort();
         return port.addUser(user.toJsonObject().toString());

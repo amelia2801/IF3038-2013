@@ -13,6 +13,7 @@ public class CategoryDAO extends DataAccessObject{
         String toOut ="";
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT categoryname FROM category WHERE categoryid =?");
+            stt.setString(1, categoryid);
             ResultSet rs = stt.executeQuery();
             rs.next();
             toOut = rs.getString("categoryname");
@@ -38,10 +39,14 @@ public class CategoryDAO extends DataAccessObject{
         
     public String GetNextCategoryId() throws Exception{
         String nextId = null; 
-        PreparedStatement stmt = conn.prepareStatement("SELECT max(categoryid) as maxid FROM category");        
-        ResultSet result = stmt.executeQuery();
-        result.next();
-        nextId = ""+(Integer.parseInt(result.getString("maxid"))+1);
+        try{            
+            PreparedStatement stmt = conn.prepareStatement("SELECT max(categoryid) as maxid FROM category");        
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            nextId = ""+(Integer.parseInt(result.getString("maxid"))+1);            
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
         return nextId;
     }
 }

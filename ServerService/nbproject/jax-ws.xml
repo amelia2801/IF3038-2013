@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="CategorySoap">
+      <implementation-class>vm.soap.CategorySoap</implementation-class>
+    </service>
+    <service name="UserSoap">
+      <implementation-class>vm.soap.UserSoap</implementation-class>
+    </service>
+    <service name="TaskSoap">
+      <implementation-class>vm.soap.TaskSoap</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>
