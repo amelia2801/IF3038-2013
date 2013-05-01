@@ -25,7 +25,39 @@ public class User extends JSONModel {
     private Date join;
     private String aboutme;
     private String avatar;
-
+    
+    public String getUsername(){
+        return username;
+    }
+    
+    public String getPassword(){
+        return password;
+    }
+    
+    public String getFullname(){
+        return fullname;
+    }
+    
+    public Date getBirthday(){
+        return birthday;
+    }
+    
+    public String getEmail(){
+        return email;
+    }
+    
+    public Date getJoin(){
+        return join;
+    }
+    
+    public String getAboutme(){
+        return aboutme;
+    }
+    
+    public String getAvatar(){
+        return avatar;
+    }
+    
     @Override
     public JSONObject toJsonObject() {
         JSONObject jObject = new JSONObject();

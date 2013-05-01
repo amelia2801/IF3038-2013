@@ -18,7 +18,7 @@ import java.sql.Date;
 public class CategorySoap {
     
     @WebMethod(operationName = "addCategory")
-    public int addCategory(@WebParam(name = "categoryid") int idcategory, @WebParam(name = "categoryname") String namecategory, @WebParam(name = "username") String username, @WebParam(name = "createddate"), Date datecreated){
+    public int addCategory(@WebParam(name = "categoryid") int idcategory, @WebParam(name = "categoryname") String namecategory, @WebParam(name = "username") String username, @WebParam(name = "createddate") Date datecreated){
         CategoryDAO categoryDao = new CategoryDAO();
         return categoryDao.addCategory(idcategory,namecategory,username,datecreated);
     }
