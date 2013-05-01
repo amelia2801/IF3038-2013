@@ -23,6 +23,7 @@ import org.json.JSONObject;
 public class UserRest extends HttpServlet {
     
     private Pattern regexUsername = Pattern.compile("^/([\\w._%].*)$");
+    private Pattern countvalididpassregex = Pattern.compile("^/([\\w._%].*)/([\\w._%].*)$");
     
     public UserRest(){
         super();
@@ -48,6 +49,11 @@ public class UserRest extends HttpServlet {
         if(matcher.find()){
             UserDAO user = new UserDAO();
             out.print(new JSONObject(user.getUser((matcher.group(1)))));
+        }
+        
+        if(matcher.find()){
+            UserDAO user = new UserDAO();
+            out.print(user.countValidIDPass(matcher.group(1),matcher.group(2)));
         }
     }
 
