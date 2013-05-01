@@ -1,5 +1,6 @@
 package vm.dao;
 
+import vm.model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,8 +54,20 @@ public class UserDAO extends DataAccessObject{
     }
     
     public int addUser(User user) {
-        vm.soap.user.UserSoap_Service service = new vm.soap.user.UserSoap_Service();
-        vm.soap.user.UserSoap port = service.getUserSoapPort();
-        return port.addUser(user.toJsonObject().toString());
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO 'user'('username','password','fullname','birthday','email','join','aboutme','avatar') VALUES  (?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFullname());
+            preparedStatement.setDate(4, user.getBirthday());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setDate(6, user.getJoin());
+            preparedStatement.setString(7, user.getAboutme());
+            preparedStatement.setString(8, user.getAvatar());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
