@@ -49,7 +49,8 @@ public class TaskDAO extends DataAccessObject {
         String toOut ="";
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT taskid FROM task WHERE taskname =? AND categoryid=?");
-            
+            stt.setString(1, taskname);
+            stt.setString(2, categoryid);
             ResultSet rs = stt.executeQuery();
             rs.next();
             toOut = rs.getString("taskid");

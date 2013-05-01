@@ -25,6 +25,7 @@ public class TagDAO extends DataAccessObject{
             tag = new HashMap<String, String>();
             
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tag WHERE tagid=?");            
+            stmt.setString(1, tagId);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 tag.put("tagid", rs.getString("tagid"));
@@ -40,6 +41,7 @@ public class TagDAO extends DataAccessObject{
         String toOut ="";
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT tagname FROM tag WHERE tagid =?");            
+            stt.setString(1, tagid);
             ResultSet rs = stt.executeQuery();
             rs.next();
             toOut = rs.getString("tagname");
@@ -54,6 +56,7 @@ public class TagDAO extends DataAccessObject{
         
         try {
             PreparedStatement st = conn.prepareStatement("SELECT tagid FROM tag WHERE tagname =?");
+            st.setString(1, tagname);
             ResultSet result = st.executeQuery();
             result.next();
             out = result.getString("tagid");
@@ -68,6 +71,7 @@ public class TagDAO extends DataAccessObject{
         
         try {
             PreparedStatement st = conn.prepareStatement("SELECT max(tagid) as maxid FROM tag");
+            
             ResultSet result = st.executeQuery();
             result.next();
             out = ""+(Integer.parseInt(result.getString("maxid"))+1);           
@@ -82,6 +86,8 @@ public class TagDAO extends DataAccessObject{
         
         try {
             PreparedStatement st = conn.prepareStatement("INSERT INTO tag values (?,?)");
+            st.setString(1, nextid);
+            st.setString(2, tagname);
             ResultSet result = st.executeQuery();
             result.next();           
             // INI KEMBALIANNYA APA YAAA???
@@ -95,6 +101,7 @@ public class TagDAO extends DataAccessObject{
         String out = null;
         try {
             PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as count FROM tag WHERE tagname =?");            
+            stmt.setString(1, tagname);
             ResultSet result = stmt.executeQuery();
             result.next();
             out = result.getString("count");

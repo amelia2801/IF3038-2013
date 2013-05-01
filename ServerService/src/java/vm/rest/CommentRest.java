@@ -12,20 +12,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import vm.dao.ResponsibilityDAO;
+import vm.dao.CommentDAO;
 
 /**
  *
  * @author Anasthasia
  */
-public class ResponsibilityRest extends HttpServlet {
+public class CommentRest extends HttpServlet {
 
-    private Pattern regexIsResponsibility = Pattern.compile("^/([0-9]{1,})/([\\w._%].*)$");
+    private Pattern regexJumlahComment = Pattern.compile("^/([0-9]{1,})$");
+    private Pattern regexNextCommentID = Pattern.compile("^/commentid$");
     
-    public ResponsibilityRest(){
+    public CommentRest(){
         super();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
@@ -42,10 +43,17 @@ public class ResponsibilityRest extends HttpServlet {
         PrintWriter out = response.getWriter();
         String pathInfo = request.getPathInfo();
         Matcher matcher;
-        matcher = regexIsResponsibility.matcher(pathInfo);
+        
+        matcher = regexJumlahComment.matcher(pathInfo);
         if(matcher.find()){
-            ResponsibilityDAO res = new ResponsibilityDAO();
-            out.print(res.isResponsibility(matcher.group(1),matcher.group(2)));            
+            CommentDAO cmt = new CommentDAO();
+            out.print(cmt.getJumlahComment(matcher.group(1)));
+        }
+        
+        matcher = regexNextCommentID.matcher(pathInfo);
+        if(matcher.find()){
+            CommentDAO cmt = new CommentDAO();
+            out.print(cmt.getNextCommentId());
         }
     }
 

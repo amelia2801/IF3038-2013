@@ -7,6 +7,8 @@ package vm.rest;
 import vm.dao.TaskDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -26,7 +28,8 @@ public class TaskRest extends HttpServlet {
 
     private Pattern regexTaskID = Pattern.compile("^/([\\w._%].*)/([0-9]{1,})$");
     private Pattern regexTask = Pattern.compile("^/([0-9]{1,})$");
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    private Pattern regexNextTaskID = Pattern.compile("^/nexttaskid$");
+    
     
     public TaskRest(){
         super();
@@ -57,7 +60,17 @@ public class TaskRest extends HttpServlet {
         matcher = regexTaskID.matcher(pathInfo);
         if(matcher.find()){
             TaskDAO task = new TaskDAO();
-            out.print(new JSONObject(task.getTask(Integer.parseInt(matcher.group(2)))));
+            out.print(task.getTaskId(matcher.group(1), matcher.group(2)));
+        }
+        
+        matcher = regexNextTaskID.matcher(pathInfo);
+        if(matcher.find()){
+            TaskDAO task = new TaskDAO();
+            try {
+                out.print(task.GetNextTaskId());
+            } catch (Exception ex) {
+                Logger.getLogger(TaskRest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

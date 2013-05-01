@@ -22,7 +22,9 @@ public class CommentDAO extends DataAccessObject{
     public String getJumlahComment(String taskId){
         try {            
             PreparedStatement stmt = conn.prepareStatement("SELECT count(*) as jumlah FROM comment WHERE taskid=?");
+            stmt.setString(1, taskId);
             ResultSet rs = stmt.executeQuery();
+            
             rs.next();
             return rs.getString("jumlah");
         } catch (Exception exc) {
@@ -34,7 +36,7 @@ public class CommentDAO extends DataAccessObject{
     public String getNextCommentId(){
          try {
             PreparedStatement stmt = conn.prepareStatement("SELECT max(commentid) as max FROM comment");            
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();            
             rs.next();
             int max = Integer.parseInt(rs.getString("max"));
             return ""+(max+1);

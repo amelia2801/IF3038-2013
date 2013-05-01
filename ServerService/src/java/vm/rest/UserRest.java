@@ -51,6 +51,7 @@ public class UserRest extends HttpServlet {
             out.print(new JSONObject(user.getUser((matcher.group(1)))));
         }
         
+        matcher = countvalididpassregex.matcher(pathInfo);
         if(matcher.find()){
             UserDAO user = new UserDAO();
             out.print(user.countValidIDPass(matcher.group(1),matcher.group(2)));

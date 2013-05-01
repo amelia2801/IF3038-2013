@@ -20,6 +20,18 @@
         <servlet-name>ResponsibilityRest</servlet-name>
         <servlet-class>vm.rest.ResponsibilityRest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AssigneeRest</servlet-name>
+        <servlet-class>vm.rest.AssigneeRest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CommentRest</servlet-name>
+        <servlet-class>vm.rest.CommentRest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TagRest</servlet-name>
+        <servlet-class>vm.rest.TagRest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/api/user/*</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>ResponsibilityRest</servlet-name>
         <url-pattern>/rest/responsibility/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AssigneeRest</servlet-name>
+        <url-pattern>/rest/assignee/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentRest</servlet-name>
+        <url-pattern>/rest/comment/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TagRest</servlet-name>
+        <url-pattern>/rest/tag/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -20,10 +20,9 @@ public class ResponsibilityDAO extends DataAccessObject{
     public String isResponsibility(String categoryid, String useractive){       
         String out = null;
         try{
-            PreparedStatement stt = conn.prepareStatement("SELECT count(*) as responsibility FROM responsibility WHERE categoryid=? and username=?");            
-            System.out.println("asdasdadasd");
-            stt.setString(1, categoryid);
-            stt.setString(2, useractive);            
+            PreparedStatement stt = conn.prepareStatement("SELECT count(*) as responsibility FROM responsibility WHERE categoryid=? and username=?");                        
+            stt.setString(1, useractive);
+            stt.setString(2, categoryid);            
             ResultSet rs = stt.executeQuery();
             rs.next();
             out = rs.getString("responsibility");

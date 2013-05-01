@@ -12,20 +12,26 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import vm.dao.ResponsibilityDAO;
+import org.json.JSONObject;
+import vm.dao.TagDAO;
 
 /**
  *
  * @author Anasthasia
  */
-public class ResponsibilityRest extends HttpServlet {
+public class TagRest extends HttpServlet {
 
-    private Pattern regexIsResponsibility = Pattern.compile("^/([0-9]{1,})/([\\w._%].*)$");
+    private Pattern regexTag = Pattern.compile("^/([0-9]{1,})$");
+    private Pattern regexTagName = Pattern.compile("^/tagname/([0-9]{1,})$");
+    private Pattern regexTagID1 = Pattern.compile("^/([\\w._%].*)$");
+    private Pattern regexTagID2 = Pattern.compile("^/maxid$");
+    private Pattern regexInsertIntoTag = Pattern.compile("^/([0-9]{1,})/([\\w._%].*)$");
+    private Pattern regexIsExist = Pattern.compile("^/([\\w._%].*)$");
     
-    public ResponsibilityRest(){
+    public TagRest(){
         super();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
@@ -42,10 +48,41 @@ public class ResponsibilityRest extends HttpServlet {
         PrintWriter out = response.getWriter();
         String pathInfo = request.getPathInfo();
         Matcher matcher;
-        matcher = regexIsResponsibility.matcher(pathInfo);
+        
+        matcher = regexTag.matcher(pathInfo);
         if(matcher.find()){
-            ResponsibilityDAO res = new ResponsibilityDAO();
-            out.print(res.isResponsibility(matcher.group(1),matcher.group(2)));            
+            TagDAO tag = new TagDAO();
+            out.print(new JSONObject(tag.GetTag(matcher.group(1))));
+        }
+        
+        matcher = regexTagName.matcher(pathInfo);
+        if(matcher.find()){
+            TagDAO tag = new TagDAO();
+            out.print(tag.GetTag(matcher.group(1)));
+        }
+        
+        matcher = regexTagID1.matcher(pathInfo);
+        if(matcher.find()){
+            TagDAO tag = new TagDAO();
+            out.print(tag.GetTagId1(matcher.group(1)));
+        }
+        
+        matcher = regexTagID2.matcher(pathInfo);
+        if(matcher.find()){
+            TagDAO tag = new TagDAO();
+            out.print(tag.GetTagId2());
+        }
+        
+        matcher = regexInsertIntoTag.matcher(pathInfo);
+        if(matcher.find()){
+            TagDAO tag = new TagDAO();
+            out.print(tag.GetTagId3(matcher.group(1), matcher.group(2)));
+        }
+        
+        matcher = regexIsExist.matcher(pathInfo);
+        if(matcher.find()){
+            TagDAO tag = new TagDAO();
+            out.print(tag.IsTagExist(matcher.group(1)));
         }
     }
 

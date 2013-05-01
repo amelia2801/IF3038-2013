@@ -12,20 +12,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import vm.dao.ResponsibilityDAO;
+import org.json.JSONObject;
+import vm.dao.AssigneeDAO;
 
 /**
  *
  * @author Anasthasia
  */
-public class ResponsibilityRest extends HttpServlet {
+public class AssigneeRest extends HttpServlet {
 
-    private Pattern regexIsResponsibility = Pattern.compile("^/([0-9]{1,})/([\\w._%].*)$");
-    
-    public ResponsibilityRest(){
-        super();
-    }
-    
+    private Pattern regexIsAssignee = Pattern.compile("^/([\\w._%].*)/([0-9]{1,})$");
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
@@ -42,10 +38,11 @@ public class ResponsibilityRest extends HttpServlet {
         PrintWriter out = response.getWriter();
         String pathInfo = request.getPathInfo();
         Matcher matcher;
-        matcher = regexIsResponsibility.matcher(pathInfo);
+        
+        matcher = regexIsAssignee.matcher(pathInfo);
         if(matcher.find()){
-            ResponsibilityDAO res = new ResponsibilityDAO();
-            out.print(res.isResponsibility(matcher.group(1),matcher.group(2)));            
+            AssigneeDAO as = new AssigneeDAO();
+            out.print(as.isAssignee(matcher.group(1), matcher.group(2)));
         }
     }
 

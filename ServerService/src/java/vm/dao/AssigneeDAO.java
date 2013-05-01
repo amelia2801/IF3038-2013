@@ -22,7 +22,8 @@ public class AssigneeDAO extends DataAccessObject{
         String out = null;
         try{
             PreparedStatement stt = conn.prepareStatement("SELECT count(*) as isexist FROM assignee WHERE username=? AND taskid=?");
-            
+            stt.setString(1, useractive);
+            stt.setString(2, taskid);
             ResultSet rs = stt.executeQuery();
             rs.next();
             out = rs.getString("isexist");
