@@ -4,17 +4,21 @@
  */
 package Servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import Class.*;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import Class.*;
+import java.io.*;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 /**
  *
  * @author ASUS
@@ -39,24 +43,31 @@ public class checkidexistence extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("id");
             String pass = request.getParameter("pass");
+            HttpURLConnection huc = (HttpURLConnection)new URL(ProxyUtil.CURCONNECTION+"/rest/user/"+username+"/"+pass).openConnection();
+            huc.setRequestMethod("GET");
             
-            GetConnection connection = new GetConnection();
+            if(huc.getResponseCode()!=200){
+                throw(new Exception("Error "+huc.getResponseCode()));
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+            String result = "" + br.readLine().charAt(2);
+            /*GetConnection connection = new GetConnection();
             Connection conn = connection.getConnection();
             Statement stmt = conn.createStatement();
             String query = "SELECT count(*) as JUMLAH FROM user WHERE username='"+username+"' AND password='"+pass+"'";
             ResultSet rs = stmt.executeQuery(query);
-            rs.next();
+            rs.next();*/
 
-            if(rs.getString(1).toString().equals("0")){
+            if(result.toString().equals("0")){
                 out.print("false");
-            }else if(rs.getString(1).toString().equals("1")){
+            }else if(result.toString().equals("1")){
                 HttpSession session = request.getSession();
                 session.setAttribute("userlistapp", username);
                 session.setMaxInactiveInterval(30*24*60*60);
                 //System.out.println("session : "+session.getAttribute("userlistapp"));
                 out.print("true");
             }
-            conn.close();
+            //conn.close();
         } catch(Exception exc){
             out.println("Error : "+exc.toString());
         }finally {            

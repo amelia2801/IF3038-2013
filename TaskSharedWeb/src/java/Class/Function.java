@@ -4,6 +4,10 @@
  */
 package Class;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.*;
+import org.json.simple.JSONValue;
 
 /**
  *
@@ -25,20 +31,23 @@ public class Function {
     public HashMap<String, String> GetUser(String username){
         try {
             HashMap<String, String> user = new HashMap<String, String>();
-            GetConnection connection = new GetConnection();
-            Connection conn = connection.getConnection();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM user WHERE username='"+username+"'";
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            user.put("username", rs.getString(1));
-            user.put("password", rs.getString(2));
-            user.put("fullname", rs.getString(3));
-            user.put("birthday", rs.getString(4));
-            user.put("email", rs.getString(5));
-            user.put("join", rs.getString(6));
-            user.put("aboutme", rs.getString(7));
-            user.put("avatar", rs.getString(8));
+            HttpURLConnection huc = (HttpURLConnection)new URL(ProxyUtil.CURCONNECTION+"/rest/user/"+username).openConnection();
+            huc.setRequestMethod("GET");
+            
+            if(huc.getResponseCode()!=200){
+                throw(new Exception("Error "+huc.getResponseCode()));
+            }
+            
+            org.json.simple.JSONObject jObject = (org.json.simple.JSONObject)JSONValue.parse(new InputStreamReader(huc.getInputStream()));
+            user.put("username", (String)jObject.get("username"));
+            user.put("password", (String)jObject.get("password"));
+            user.put("fullname", (String)jObject.get("fullname"));
+            user.put("birthday", (String)jObject.get("birthday"));
+            user.put("email", (String)jObject.get("email"));
+            user.put("join", (String)jObject.get("join"));
+            user.put("aboutme", (String)jObject.get("aboutme"));
+            user.put("avatar", (String)jObject.get("avatar"));
+            
             return user;
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -49,19 +58,21 @@ public class Function {
     public HashMap<String, String> GetTask(String taskId){
         try {
             HashMap<String, String> task = new HashMap<String, String>();
-            GetConnection connection = new GetConnection();
-            Connection conn = connection.getConnection();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM task WHERE taskid='"+taskId+"'";
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            task.put("taskid", rs.getString(1));
-            task.put("taskname", rs.getString(2));
-            task.put("username", rs.getString(3));
-            task.put("createddate", rs.getString(4));
-            task.put("deadline", rs.getString(5));
-            task.put("status", rs.getString(6));
-            task.put("categoryid", rs.getString(7));
+            HttpURLConnection huc = (HttpURLConnection)new URL(ProxyUtil.CURCONNECTION+"/rest/task/"+taskId).openConnection();
+            huc.setRequestMethod("GET");
+            
+            if(huc.getResponseCode()!=200){
+                throw(new Exception("Error "+huc.getResponseCode()));
+            }
+
+            org.json.simple.JSONObject jObject = (org.json.simple.JSONObject)JSONValue.parse(new InputStreamReader(huc.getInputStream()));
+            task.put("taskid", (String)jObject.get("taskid"));
+            task.put("taskname", (String)jObject.get("taskname"));
+            task.put("username", (String)jObject.get("username"));
+            task.put("createddate", (String)jObject.get("createddate"));
+            task.put("deadline", (String)jObject.get("deadline"));
+            task.put("status", (String)jObject.get("status"));
+            task.put("categoryid", (String)jObject.get("categoryid"));
             return task;
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -72,14 +83,16 @@ public class Function {
     public HashMap<String, String> GetTag(String tagId){
         try {
             HashMap<String, String> tag = new HashMap<String, String>();
-            GetConnection connection = new GetConnection();
-            Connection conn = connection.getConnection();
-            Statement stmt = conn.createStatement();
-            String query = "SELECT * FROM tag WHERE tagid='"+tagId+"'";
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            tag.put("tagid", rs.getString("tagid"));
-            tag.put("tagname", rs.getString("tagname"));
+            HttpURLConnection huc = (HttpURLConnection)new URL(ProxyUtil.CURCONNECTION+"/rest/tag/"+tagId).openConnection();
+            huc.setRequestMethod("GET");
+            
+            if(huc.getResponseCode()!=200){
+                throw(new Exception("Error "+huc.getResponseCode()));
+            }
+
+            org.json.simple.JSONObject jObject = (org.json.simple.JSONObject)JSONValue.parse(new InputStreamReader(huc.getInputStream()));
+            tag.put("tagid", (String)jObject.get("tagid"));
+            tag.put("tagname", (String)jObject.get("tagname"));
             
             return tag;
         } catch (Exception e) {
@@ -107,10 +120,14 @@ public class Function {
             GetConnection connection = new GetConnection();
             Connection conn = connection.getConnection();
             Statement stmt = conn.createStatement();
-            String query = "SELECT count(*) as jumlah FROM comment WHERE taskid= '"+taskId+"'";
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            return rs.getString("jumlah");
+            HttpURLConnection huc = (HttpURLConnection)new URL(ProxyUtil.CURCONNECTION+"/rest/comment/"+taskId).openConnection();
+            huc.setRequestMethod("GET");
+            
+            if(huc.getResponseCode()!=200){
+                throw(new Exception("Error "+huc.getResponseCode()));
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+            return br.readLine();
         } catch (Exception exc) {
             System.out.println(exc.toString());
             return "Error : "+exc.toString();
