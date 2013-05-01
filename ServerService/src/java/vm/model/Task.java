@@ -34,12 +34,11 @@ public class Task extends JSONModel{
         JSONObject jObject = new JSONObject();
 
         jObject.put("taskid", taskid);
-        /*jObject.put("idAttachment", idAttachment);
-        jObject.put("idTugas", idTugas);
-        jObject.put("name", name);
-        jObject.put("filename", filename);
-        jObject.put("type", type);*/
-
         return jObject;
+    }
+    
+    @Override
+        public void fromJsonObject(JSONObject jObject) {
+        this.taskid = jObject.getInt("taskid");
     }
 }
