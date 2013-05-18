@@ -148,9 +148,45 @@ public class Tubes5Client extends javax.swing.JFrame {
                 "Error",
                 JOptionPane.WARNING_MESSAGE);
         }else{
-            MainFrame test = new MainFrame(usernameTextfield.getText(),passwordTextfield.getText());
-            test.setVisible(true);
-            test.setFocusable(true);
+            try {
+                socket = new Socket("user",8888);
+                out = new PrintWriter(socket.getOutputStream(),true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            } catch (UnknownHostException e) {
+                System.err.println("Host named \"user\" is not found");
+                System.exit(1);
+            } catch (IOException e) {
+                System.err.println("Failed to connect to \"user\"");
+                System.exit(1);
+            }
+            
+            BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+            String fromserver, fromuser;
+            
+            try {
+                fromuser = usernameTextfield.getText() + "-" + passwordTextfield.getText();
+                out.println(fromuser);
+
+                fromserver = in.readLine();
+                if (fromserver.equals("success")) {
+                    MainFrame test = new MainFrame(usernameTextfield.getText(),passwordTextfield.getText(),socket,out,in);
+                    test.setVisible(true);
+                    test.setFocusable(true);
+                }
+                else {
+                    JOptionPane.showMessageDialog(this,
+                        "Username or Password is not valid!",
+                        "Error",
+                        JOptionPane.WARNING_MESSAGE);
+                    
+                    out.close();
+                    in.close();
+                    socket.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Disconnected from server");
+                System.exit(1);
+            }
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
