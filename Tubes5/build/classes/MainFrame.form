@@ -42,8 +42,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="welcomeLabel" min="-2" pref="64" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="listtask" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <Component id="listtask" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -62,23 +62,18 @@
         </Property>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="listtask">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="listtask.setLayout(new java.awt.GridLayout(0,2,10,10));"/>
-      </AuxValues>
+    <Container class="javax.swing.JScrollPane" name="listtask">
 
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="221" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="list">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+            <Property name="columns" type="int" value="0"/>
+            <Property name="rows" type="int" value="1"/>
+          </Layout>
+        </Container>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>

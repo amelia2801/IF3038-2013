@@ -6,6 +6,13 @@ import java.lang.*;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JComponent;
+import java.util.ArrayList;
+import javax.accessibility.AccessibleContext;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.sql.Timestamp;
 /**
  *
  * @author TOSHIBA
@@ -25,14 +32,32 @@ public class MainFrame extends javax.swing.JFrame {
        welcomeLabel.setText("Welcome, "+username);
        JCheckBox cb = new JCheckBox("New Checkbox");
        cb.setVisible(true);
-       listtask.add(cb);
-       for (int i=0;i<10;++i)
+       ArrayList<String> container = new ArrayList<String>();
+       for (int i=0;i<10;i++)
        {
-           listtask.add(new JCheckBox("New Checkbox"+i));
+           container.add("checkbox"+(i+1));
        }
-       listtask.revalidate();
-       listtask.repaint();
+       JCheckBox checkbox;
        
+       list.setLayout(new java.awt.GridLayout(container.size(),1));
+       for (int i = 0 ; i < container.size(); i++){
+           checkbox  = new JCheckBox(container.get(i));
+           checkbox.setName(container.get(i));
+           checkbox.addActionListener(new Checked());
+           list.add(checkbox);
+       }
+       
+       list.revalidate();
+       list.repaint();
+    }
+    
+    class Checked implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            JCheckBox changed_element = (JCheckBox) e.getSource();
+            Timestamp timestamp = new Timestamp(e.getWhen());
+            System.out.println(changed_element.getName()+", "+timestamp + ", " + changed_element.isSelected());
+            
+        }
     }
     
 
@@ -46,7 +71,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         welcomeLabel = new javax.swing.JLabel();
-        listtask = new javax.swing.JPanel();
+        listtask = new javax.swing.JScrollPane();
+        list = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,18 +80,8 @@ public class MainFrame extends javax.swing.JFrame {
         welcomeLabel.setText("Welcome ,");
         welcomeLabel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        javax.swing.GroupLayout listtaskLayout = new javax.swing.GroupLayout(listtask);
-        listtask.setLayout(listtaskLayout);
-        listtaskLayout.setHorizontalGroup(
-            listtaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        listtaskLayout.setVerticalGroup(
-            listtaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
-        );
-
-        listtask.setLayout(new java.awt.GridLayout(0,2,10,10));
+        list.setLayout(new java.awt.GridLayout());
+        listtask.setViewportView(list);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,7 +91,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(welcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .addComponent(listtask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(listtask))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -84,8 +100,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listtask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(listtask, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("frame");
@@ -130,7 +146,8 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel listtask;
+    private javax.swing.JPanel list;
+    private javax.swing.JScrollPane listtask;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
