@@ -136,10 +136,14 @@ public class Tubes5Client extends javax.swing.JFrame {
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         // TODO add your handling code here:
-        usernameTextfield.setText(null);
-        passwordTextfield.setText(null);
+        reset();
     }//GEN-LAST:event_resetButtonActionPerformed
 
+    public void reset(){
+        usernameTextfield.setText(null);
+        passwordTextfield.setText(null);
+    }
+    
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         if ((usernameTextfield.getText().length()==0)||(passwordTextfield.getText().length()==0)){
@@ -169,9 +173,10 @@ public class Tubes5Client extends javax.swing.JFrame {
 
                 fromserver = in.readLine();
                 if (fromserver.equals("success")) {
-                    MainFrame test = new MainFrame(usernameTextfield.getText(),passwordTextfield.getText(),socket,out,in);
-                    test.setVisible(true);
-                    test.setFocusable(true);
+                    MainFrame mainframe = new MainFrame(usernameTextfield.getText(),passwordTextfield.getText(),socket,out,in);
+                    mainframe.setVisible(true);
+                    mainframe.setFocusable(true);
+                    this.setVisible(false);
                 }
                 else {
                     JOptionPane.showMessageDialog(this,

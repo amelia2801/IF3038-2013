@@ -2,17 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.lang.*;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
 import java.util.ArrayList;
-import javax.accessibility.AccessibleContext;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Component;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -24,6 +21,7 @@ import java.sql.Timestamp;
 public class MainFrame extends javax.swing.JFrame {
     private String username;
     private String password;
+    private String path ="C:\\Users\\TOSHIBA\\Documents\\Tubes5\\";
     
     Socket socket = null;
     PrintWriter out = null;
@@ -62,12 +60,18 @@ public class MainFrame extends javax.swing.JFrame {
 
             list.setLayout(new java.awt.GridLayout(container.size(),1));
             for (int i = 0 ; i < container.size(); i++){
-                checkbox  = new JCheckBox(container.get(i));
-                checkbox.setName(container.get(i));
+                String namestatus = container.get(i);
+                String[] attribute = namestatus.split(":");
+                checkbox  = new JCheckBox(attribute[0]);
+                checkbox.setName(attribute[0]);
+                if (attribute[1].equals("COMPLETE")){
+                    checkbox.setSelected(true);
+                }else{
+                    checkbox.setSelected(false);
+                }
                 checkbox.addActionListener(new Checked());
                 list.add(checkbox);
             }
-
             list.revalidate();
             list.repaint();
         } catch (IOException e) {
@@ -80,8 +84,23 @@ public class MainFrame extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent e){
             JCheckBox changed_element = (JCheckBox) e.getSource();
             Timestamp timestamp = new Timestamp(e.getWhen());
-            System.out.println(changed_element.getName()+", "+timestamp + ", " + changed_element.isSelected());
-            
+            String content = changed_element.getName()+","+timestamp + "," + changed_element.isSelected();
+            try {
+                File dir = new File(path+"log");
+                dir.mkdirs();
+                File file = new File(dir, changed_element.getName()+".txt");
+                if (!file.exists()){
+                    file.createNewFile();
+                }else{
+                    content = "-"+content;
+                }
+                    FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(content);
+                    bw.close();
+            }catch (IOException exp){
+                exp.printStackTrace();
+            }
         }
     }
     
@@ -153,6 +172,11 @@ public class MainFrame extends javax.swing.JFrame {
             out.close();
             in.close();
             socket.close();
+            Tubes5Client loginform = new Tubes5Client();
+            loginform.setVisible(true);
+            loginform.setFocusable(true);
+            loginform.reset();
+            this.setVisible(false);
         } catch (IOException e) {
             System.err.println("Problem with the server");
         }
