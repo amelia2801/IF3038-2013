@@ -12,6 +12,10 @@ import javax.accessibility.AccessibleContext;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.sql.Timestamp;
 /**
  *
@@ -20,6 +24,10 @@ import java.sql.Timestamp;
 public class MainFrame extends javax.swing.JFrame {
     private String username;
     private String password;
+    
+    Socket socket = null;
+    PrintWriter out = null;
+    BufferedReader in = null;
     /**
      * Creates new form MainFrame
      */
@@ -27,28 +35,45 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public MainFrame(String username, String password){
-       initComponents();
-       welcomeLabel.setText("Welcome, "+username);
-       JCheckBox cb = new JCheckBox("New Checkbox");
-       cb.setVisible(true);
-       ArrayList<String> container = new ArrayList<String>();
-       for (int i=0;i<10;i++)
-       {
-           container.add("checkbox"+(i+1));
-       }
-       JCheckBox checkbox;
-       
-       list.setLayout(new java.awt.GridLayout(container.size(),1));
-       for (int i = 0 ; i < container.size(); i++){
-           checkbox  = new JCheckBox(container.get(i));
-           checkbox.setName(container.get(i));
-           checkbox.addActionListener(new Checked());
-           list.add(checkbox);
-       }
-       
-       list.revalidate();
-       list.repaint();
+    public MainFrame(String username, String password, Socket socket, PrintWriter out, BufferedReader in){
+        initComponents();
+
+        try {
+            this.socket = socket;
+            this.out = out;
+            this.in = in;
+
+            welcomeLabel.setText("Welcome, "+username);
+
+            String fromserver, fromuser;
+
+            fromuser = "list";
+            out.println(fromuser);
+
+            fromserver = in.readLine();
+            String[] listtask = fromserver.split("-");
+
+            ArrayList<String> container = new ArrayList<String>();
+            for (String s : listtask)
+            {
+                container.add(s);
+            }
+            JCheckBox checkbox;
+
+            list.setLayout(new java.awt.GridLayout(container.size(),1));
+            for (int i = 0 ; i < container.size(); i++){
+                checkbox  = new JCheckBox(container.get(i));
+                checkbox.setName(container.get(i));
+                checkbox.addActionListener(new Checked());
+                list.add(checkbox);
+            }
+
+            list.revalidate();
+            list.repaint();
+        } catch (IOException e) {
+            System.err.println("Failed to get list of task");
+            System.exit(1);
+        }
     }
     
     class Checked implements ActionListener{
@@ -85,6 +110,11 @@ public class MainFrame extends javax.swing.JFrame {
         listtask.setViewportView(list);
 
         logoutButton.setText("Log Out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,6 +146,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            out.close();
+            in.close();
+            socket.close();
+        } catch (IOException e) {
+            System.err.println("Problem with the server");
+        }
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     
     
