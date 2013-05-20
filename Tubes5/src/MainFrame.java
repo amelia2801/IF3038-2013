@@ -84,7 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent e){
             JCheckBox changed_element = (JCheckBox) e.getSource();
             Timestamp timestamp = new Timestamp(e.getWhen());
-            String content = changed_element.getName()+","+timestamp + "," + changed_element.isSelected();
+            String content = changed_element.getName()+"-"+ !value +"-"+value+"-'"+timestamp+"'";
             try {
                 File dir = new File(path+"log");
                 dir.mkdirs();
