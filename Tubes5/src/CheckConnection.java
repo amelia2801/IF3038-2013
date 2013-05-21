@@ -36,7 +36,8 @@ public class CheckConnection extends Thread {
             while (socket.isConnected()) {
                 sleep(3000);
                 out.println("list2");
-                in.readLine();
+                String input = in.readLine();
+                mainframe.Update(input);
             }
             
             out.close();
@@ -45,17 +46,20 @@ public class CheckConnection extends Thread {
         } catch (SocketException e) {
             System.err.println("Failed connecting to server");
             mainframe.SetStatus("Disconnected from server");
-            while (mainframe.Reconnect()) {    
+            while (!mainframe.Reconnect()) {
+                System.out.println("masuk");
             }
         } catch (IOException e) {
             System.err.println("Failed connecting to server");
             mainframe.SetStatus("Disconnected from server");
-            while (mainframe.Reconnect()) {    
+            while (!mainframe.Reconnect()) {
+                System.out.println("masuk");
             }
         } catch (InterruptedException e) {
             System.err.println("Failed connecting to server");
             mainframe.SetStatus("Disconnected from server");
-            while (mainframe.Reconnect()) {    
+            while (!mainframe.Reconnect()) {  
+                System.out.println("masuk");
             }
         }
     }

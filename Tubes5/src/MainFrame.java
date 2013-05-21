@@ -103,13 +103,52 @@ public class MainFrame extends javax.swing.JFrame {
             }
             list.revalidate();
             list.repaint();
-            File file = new File(path+username+"log.txt");
+            File file = new File(path+username+"\\log.txt");
             file.delete();
             
             new CheckConnection(socket,this).start();
         } catch (IOException e) {
             System.err.println("Failed to get list of task");
             System.exit(1);
+        }
+    }
+    
+    public void Update(String input) {
+        try {
+            String[] listtask = input.split("-");
+
+            ArrayList<String> container = new ArrayList<String>();
+            for (String s : listtask)
+            {
+                container.add(s);
+            }
+            JCheckBox checkbox;
+
+            list.removeAll();
+            list.setLayout(new java.awt.GridLayout(container.size(),1));
+            for (int i = 0 ; i < container.size(); i++){
+                String namestatus = container.get(i);
+                String[] attribute = namestatus.split(":");
+                checkbox  = new JCheckBox(attribute[0]);
+                checkbox.setName(attribute[0]);
+                if (attribute[1].equals("COMPLETE")){
+                    checkbox.setSelected(true);
+                }else{
+                    checkbox.setSelected(false);
+                }
+                checkbox.addActionListener(new Checked());
+                list.add(checkbox);
+            }
+            list.revalidate();
+            list.repaint();
+            
+            SetStatus("Connected to server");
+            
+            File file = new File(path+username+"\\log.txt");
+            file.delete();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to update database");
+            SetStatus("Synchronizing with server....");
         }
     }
     
@@ -121,6 +160,7 @@ public class MainFrame extends javax.swing.JFrame {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             } catch (UnknownHostException e) {
                 System.err.println("Host named \"user\" is not found");
+                return false;
             } catch (IOException e) {
                 System.err.println("Failed to connect to \"user\"");
                 return false;
@@ -161,6 +201,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             JCheckBox checkbox;
 
+            list.removeAll();
             list.setLayout(new java.awt.GridLayout(container.size(),1));
             for (int i = 0 ; i < container.size(); i++){
                 String namestatus = container.get(i);
@@ -177,7 +218,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             list.revalidate();
             list.repaint();
-            File file = new File(path+username+"log.txt");
+            File file = new File(path+username+"\\log.txt");
             file.delete();
             
             new CheckConnection(socket,this).start();
@@ -189,6 +230,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     class Checked implements ActionListener{
+        @Override
         public void actionPerformed(ActionEvent e){
             JCheckBox changed_element = (JCheckBox) e.getSource();
             Timestamp timestamp = new Timestamp(e.getWhen());
